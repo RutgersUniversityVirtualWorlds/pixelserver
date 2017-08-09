@@ -1,0 +1,31 @@
+{
+  "name": "pixelserver",
+  "version": "0.1.0",
+  "description": "Server handling communication between client and raspberryPi",
+  "main": "index.js",
+  "dependencies": {
+    "ejs": "^2.5.7",
+    "express": "^4.15.4",
+    "socket.io": "^2.0.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RutgersUniversityVirtualWorlds/pixelserver.git"
+  },
+  "keywords": [
+    "server",
+    "socket",
+    "IoT",
+    "raspberryPi"
+  ],
+  "author": "Gibran Garcia <satimidus@gmail.com> (http://owlsketch.com)",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/RutgersUniversityVirtualWorlds/pixelserver/issues"
+  },
+  "homepage": "https://github.com/RutgersUniversityVirtualWorlds/pixelserver#readme"
+}

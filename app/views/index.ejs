@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title> Test </title>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io();
+    socket.on('news', function(data) {
+      console.log(data);
+      socket.emit('other event', {my: 'data'});
+    });
+  </script>
+</head>
+<body>
+  <h1> SUCCESS! </h1>
+</body>
+</html>
