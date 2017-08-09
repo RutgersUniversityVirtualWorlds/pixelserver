@@ -1,14 +1,9 @@
-let express = require('express');
+let express = require('./config/express.js');
 let app = express();
-let http = require('http').Server(app);
-let io = require('socket.io')(http);
-
-app.set('views', './app/views');
-app.set('view engine', 'ejs');
-
-app.get('/', function(req, res) {
-  res.render('index');
-});
+let server = require('http').Server(app);
+//must attach socket.io to an http.Server instance,
+//not an express request handler function
+let io = require('socket.io')(server);
 
 io.on('connection', function(socket) {
   console.log('A user has connected');
@@ -18,6 +13,6 @@ io.on('connection', function(socket) {
   });
 });
 
-http.listen(3000, function() {
+server.listen(3000, function() {
   console.log('Server listening on port 3000.');
 });
