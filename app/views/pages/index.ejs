@@ -2,12 +2,15 @@
 <html>
 <head>
   <title> Test </title>
+  <!-- A standalone build of socket.io-client is exposed
+  automatically by the socket.io server as /socket.io/socket.io.js. -->
   <script src="/socket.io/socket.io.js"></script>
   <script>
     var socket = io();
-    socket.on('news', function(data) {
-      console.log(data);
-      socket.emit('other event', {my: 'data'});
+    socket.on('connect', function() {
+      socket.emit('identifier', {type: 'web-client'});
+
+      socket.emit('say hello');
     });
   </script>
 </head>
