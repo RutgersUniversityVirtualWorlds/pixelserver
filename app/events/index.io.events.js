@@ -10,8 +10,8 @@ module.exports = function(io) {
       controller.verify(socket, data, led);
     });
 
-    socket.on('say hello', function() {
-      controller.hello(socket, led);
+    socket.on('post', function(data) {
+      controller.post(socket, data, led);
     });
 
     socket.on('disconnect', function(reason) {

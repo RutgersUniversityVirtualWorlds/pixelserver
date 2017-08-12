@@ -10,9 +10,12 @@ module.exports = {
       }
     }
   },
-  hello: function(socket, led) {
+  post: function(socket, data, led) {
     if(led.id !== null) {
-      socket.to(led.id).emit('hello', 'hello from the web!');
+      let filteredData = {};
+      filteredData.type = data.type;
+      filteredData.colors = data.colors;
+      socket.to(led.id).emit('read', filteredData);
       console.log('message sent');
     }
     else {
