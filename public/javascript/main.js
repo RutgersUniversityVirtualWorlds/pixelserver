@@ -53,12 +53,76 @@ function CanvasState(canvas) {
 
   /***** State Variables ******/
   this.pixels = [];
+
+  /******* Mouse Events *******/
+  var state = this; //make a self-reference to CanvasState for when we trigger mouseEvents
+  //fixes a problem where double clicking causes text to get selected on the canvas
+ canvas.addEventListener('selectstart', function(e) {
+   e.preventDefault(); return false;
+ }, false);
+
+ canvas.addEventListener('mousedown', function(e) {
+   //when mouse clicks down on our canvas grid:
+   //determine which pixel it has touched.
+   var mouse = state.getMouse(e);
+   var mx = mouse.x;
+   var my = mouse.y;
+
+   //mx,my now give us our position, now loop through our
+   //pixels until the one that contains the mouse is found
+   for(var i = 0; i < state.pixels.length; i++) {
+     if(state.pixels[i].contains(mx, my)) {
+       var selection = state.pixels[i];
+       if(selection.fill === '#ffffff') {
+         selection.fill = '#000000';
+         sendSinglePixel(state, i, socket);
+       }
+       else {
+         selection.fill = '#ffffff';
+         sendSinglePixel(state, i, socket);
+       }
+     }
+   }
+
+
+
+ });
+}
+
+// Creates an object with x and y defined, set to the mouse position relative to the state's canvas
+// If you wanna be super-correct this can be tricky, we have to worry about padding and borders
+CanvasState.prototype.getMouse = function(e) {
+  var element = this.canvas;
+  var offsetX = 0;
+  var offsetY = 0;
+  var mx, my;
+
+  // Compute the total offset
+  if (element.offsetParent !== undefined) {
+    do {
+      offsetX += element.offsetLeft;
+      offsetY += element.offsetTop;
+    } while ((element = element.offsetParent));
+  }
+
+  // Add padding and border style widths to offset
+  // Also add the <html> offsets in case there's a position:fixed bar
+  offsetX += this.stylePaddingLeft + this.styleBorderLeft + this.htmlLeft;
+  offsetY += this.stylePaddingTop + this.styleBorderTop + this.htmlTop;
+
+  mx = e.pageX - offsetX;
+  my = e.pageY - offsetY;
+
+  // We return a simple javascript object (a hash) with x and y defined
+  return {x: mx, y: my};
 }
 
 function setUpGrid(grid) {
+  //ideally this will get a 'global' state of what the grid looks like right now
+  //and then display it to the user.
   for(var i = 0; i < 5; i++) {
     for (var j = 0; j < 5; j++) {
-      var tempPixelInstance = new Pixel(i*20, j*20, 20, 20, '#ffffff');
+      var tempPixelInstance = new Pixel(j*20, i*20, 20, 20, '#ffffff');
       tempPixelInstance.draw(grid.ctx);
       grid.pixels.push(tempPixelInstance);
     }
@@ -77,6 +141,8 @@ function hexToRGB(hex) { //expecting a hex string of type #xxxxxx
   return [parseInt(red, 16), parseInt(green, 16), parseInt(blue, 16)];
 }
 
+//the following two functions should also send that information to
+//all the other users so they can update their own renders of the grid
 function sendAllPixels(grid, socket) {
   var ledArray = [];
   for(var i = 0; i < grid.pixels.length; i++) {
