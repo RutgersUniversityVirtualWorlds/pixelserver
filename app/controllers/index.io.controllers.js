@@ -10,11 +10,18 @@ module.exports = {
       }
     }
   },
+  //TODO: Definitely improve this. Data being sent is not being checked
   post: function(socket, data, led) {
-    if(led.id !== null) {
+    if(led.id !== null) { //if led exists
       let filteredData = {};
       filteredData.type = data.type;
-      filteredData.colors = data.colors;
+      if(filteredData.type === 'single-pixel') {
+          filteredData.pixel = data.pixel;
+          filteredData.color = data.color;
+      }
+      else { //sending all the pixels
+        filteredData.colors = data.colors;
+      }
       socket.to(led.id).emit('read', filteredData);
       console.log('message sent');
     }
