@@ -3,32 +3,6 @@ tutorial: https://github.com/simonsarris/Canvas-tutorials/blob/master/shapes.js
 by Simon Sarris ( www.simonsarris.com, sarris@acm.org)
 Thanks for helping make this project possible. - Gibran */
 
-//basic pixel constructor
-function Pixel(x,y, w, h, fill) {
-  this.x = x || 0;
-  this.y = y || 0;
-  this.w = w || 20;
-  this.h = h || 20;
-  this.fill = fill || '#AAAAAA';
-}
-
-//draw pixel to ctx
-Pixel.prototype.draw = function(ctx) {
-  ctx.fillStyle = this.fill;
-  ctx.fillRect(this.x, this.y, this.w, this.h);
-  //https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Applying_styles_and_colors
-  ctx.strokeRect(this.x+0.5, this.y+0.5, this.w, this.h);
-}
-
-//determine if mouse is currently within the bounds of the current pixel
-Pixel.prototype.contains = function(mx,my) {
-  if(mx >= this.x && my >= this.y && mx <= (this.x + this.w) && my <= (this.y + this.h)) {
-    return true;
-  }
-  else return false;
-}
-
-
 function CanvasState(canvas) {
   /******* setup **********/
   this.canvas = canvas;
@@ -53,9 +27,15 @@ function CanvasState(canvas) {
 
   /***** State Variables ******/
   this.pixels = [];
+  this.render = false;
+  this.dragging = false;
 
   /******* Mouse Events *******/
-  var state = this; //make a self-reference to CanvasState for when we trigger mouseEvents
+  //'this' is a newly created CanvasState object
+  //thus this.canvas = canvas reffers to the canvas we passed along
+  //make a self-reference to CanvasState for when we trigger mouseEvents
+  var state = this;
+
   //fixes a problem where double clicking causes text to get selected on the canvas
  canvas.addEventListener('selectstart', function(e) {
    e.preventDefault(); return false;
@@ -65,29 +45,57 @@ function CanvasState(canvas) {
    //when mouse clicks down on our canvas grid:
    //determine which pixel it has touched.
    var mouse = state.getMouse(e);
-   var mx = mouse.x;
-   var my = mouse.y;
+   state.dragging = true;
 
-   //mx,my now give us our position, now loop through our
-   //pixels until the one that contains the mouse is found
+   //mouse.x,mouse.y now give us our position, now loop through
+   //our pixels until the one that contains the mouse is found
    for(var i = 0; i < state.pixels.length; i++) {
-     if(state.pixels[i].contains(mx, my)) {
+     if(state.pixels[i].contains(mouse.x, mouse.y)) {
        var selection = state.pixels[i];
-       if(selection.fill === '#ffffff') {
-         selection.fill = '#000000';
-         sendSinglePixel(state, i, socket);
-       }
-       else {
-         selection.fill = '#ffffff';
-         sendSinglePixel(state, i, socket);
-       }
+       state.render = true;
+
+       selection.fill = '#000000';
+       state.draw();
+       sendSinglePixel(state, i, socket);
      }
    }
-
-
-
  });
-}
+
+ canvas.addEventListener('mousemove', function(e) {
+  var mouse = state.getMouse(e);
+
+  for(var i = 0; i < state.pixels.length; i++) {
+    if(state.pixels[i].contains(mouse.x, mouse.y)) {
+      state.render = true;
+      var selection = state.pixels[i];
+
+      if(!state.dragging) {
+        state.draw();
+        //add highlight on top of the current pixel
+        selection.drawHighlight(state.ctx);
+      }
+      else {
+        selection.fill = '#000000';
+        state.draw();
+        sendSinglePixel(state, i, socket);
+      }
+    }
+  }
+ });
+
+//regardless of where on the window! A mouseup disables dragging
+ window.addEventListener('mouseup', function(e) {
+   state.dragging = false;
+ });
+
+//when mouse leaves canvas, highlight should dissapear
+ canvas.addEventListener('mouseleave', function(e) {
+   //essentially redraw the canvas without drawing the highlight
+   state.render = true;
+   state.draw();
+ });
+};
+
 
 // Creates an object with x and y defined, set to the mouse position relative to the state's canvas
 // If you wanna be super-correct this can be tricky, we have to worry about padding and borders
@@ -95,7 +103,6 @@ CanvasState.prototype.getMouse = function(e) {
   var element = this.canvas;
   var offsetX = 0;
   var offsetY = 0;
-  var mx, my;
 
   // Compute the total offset
   if (element.offsetParent !== undefined) {
@@ -110,12 +117,32 @@ CanvasState.prototype.getMouse = function(e) {
   offsetX += this.stylePaddingLeft + this.styleBorderLeft + this.htmlLeft;
   offsetY += this.stylePaddingTop + this.styleBorderTop + this.htmlTop;
 
-  mx = e.pageX - offsetX;
-  my = e.pageY - offsetY;
+  var mx = e.pageX - offsetX;
+  var my = e.pageY - offsetY;
 
   // We return a simple javascript object (a hash) with x and y defined
   return {x: mx, y: my};
-}
+};
+
+CanvasState.prototype.clear = function() {
+  var ctx = this.ctx;
+  ctx.clearRect(0,0, 101, 101);
+};
+
+CanvasState.prototype.draw = function() {
+  if(this.render) {
+    //if render set to true, redraw the canvas
+    this.clear();
+    var ctx = this.ctx;
+    var pixels = this.pixels;
+
+    for(var i = 0; i < pixels.length; i++) {
+      pixels[i].draw(ctx);
+    }
+
+    this.render = false;
+  }
+};
 
 function setUpGrid(grid) {
   //ideally this will get a 'global' state of what the grid looks like right now
@@ -127,46 +154,6 @@ function setUpGrid(grid) {
       grid.pixels.push(tempPixelInstance);
     }
   }
-}
-
-function hexToRGB(hex) { //expecting a hex string of type #xxxxxx
-  //strip first letter ('#')
-  var rgbString = hex.slice(1);
-
-  var red = rgbString.substr(0,2);
-  var green = rgbString.substr(2,2);
-  var blue = rgbString.substr(4,2);
-
-  //return an array [R,G,B]
-  return [parseInt(red, 16), parseInt(green, 16), parseInt(blue, 16)];
-}
-
-//the following two functions should also send that information to
-//all the other users so they can update their own renders of the grid
-function sendAllPixels(grid, socket) {
-  var ledArray = [];
-  for(var i = 0; i < grid.pixels.length; i++) {
-    var hexVersion = grid.pixels[i].fill;
-    var RGBVersion = hexToRGB(hexVersion);
-    ledArray.push(RGBVersion);
-  }
-
-  socket.emit('post', {
-    type: 'all-pixels',
-    colors: ledArray,
-    time: 1000
-  });
-}
-
-function sendSinglePixel(grid, pixelNum, socket) {
-  var pixelFillHex = grid.pixels[pixelNum].fill;
-  var pixelRGBVersion = hexToRGB(pixelFillHex);
-
-  socket.emit('post', {
-    type: 'single-pixel',
-    pixel: pixelNum,
-    color: pixelRGBVersion
-  });
 }
 
 function init() {
