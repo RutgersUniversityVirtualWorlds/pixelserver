@@ -37,63 +37,19 @@ function CanvasState(canvas) {
   var state = this;
 
   //fixes a problem where double clicking causes text to get selected on the canvas
- canvas.addEventListener('selectstart', function(e) {
-   e.preventDefault(); return false;
- }, false);
+ canvas.addEventListener('selectstart', function(e) { return preventDefaultFunction(e); }, false);
 
- canvas.addEventListener('mousedown', function(e) {
-   //when mouse clicks down on our canvas grid:
-   //determine which pixel it has touched.
-   var mouse = state.getMouse(e);
-   state.dragging = true;
+ //drawing pixels on mousedown
+ canvas.addEventListener('mousedown', function(e) { mouseDownEvent(e, state); });
 
-   //mouse.x,mouse.y now give us our position, now loop through
-   //our pixels until the one that contains the mouse is found
-   for(var i = 0; i < state.pixels.length; i++) {
-     if(state.pixels[i].contains(mouse.x, mouse.y)) {
-       var selection = state.pixels[i];
-       state.render = true;
-
-       selection.fill = '#000000';
-       state.draw();
-       sendSinglePixel(state, i, socket);
-     }
-   }
- });
-
- canvas.addEventListener('mousemove', function(e) {
-  var mouse = state.getMouse(e);
-
-  for(var i = 0; i < state.pixels.length; i++) {
-    if(state.pixels[i].contains(mouse.x, mouse.y)) {
-      state.render = true;
-      var selection = state.pixels[i];
-
-      if(!state.dragging) {
-        state.draw();
-        //add highlight on top of the current pixel
-        selection.drawHighlight(state.ctx);
-      }
-      else {
-        selection.fill = '#000000';
-        state.draw();
-        sendSinglePixel(state, i, socket);
-      }
-    }
-  }
- });
+ //dragging functionality for drawing
+ canvas.addEventListener('mousemove', function(e) { mouseMoveEvent(e, state); });
 
 //regardless of where on the window! A mouseup disables dragging
- window.addEventListener('mouseup', function(e) {
-   state.dragging = false;
- });
+ window.addEventListener('mouseup', function(e) { state.dragging = false; });
 
 //when mouse leaves canvas, highlight should dissapear
- canvas.addEventListener('mouseleave', function(e) {
-   //essentially redraw the canvas without drawing the highlight
-   state.render = true;
-   state.draw();
- });
+ canvas.addEventListener('mouseleave', function(e) { mouseLeaveEvent(e, state); });
 };
 
 
@@ -136,9 +92,13 @@ CanvasState.prototype.draw = function() {
     var ctx = this.ctx;
     var pixels = this.pixels;
 
+    //draw everything below the grid here
+
     for(var i = 0; i < pixels.length; i++) {
       pixels[i].draw(ctx);
     }
+
+    //draw everything after the pixel grid has been drawn here
 
     this.render = false;
   }

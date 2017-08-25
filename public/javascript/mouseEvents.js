@@ -1,0 +1,52 @@
+function preventDefaultFunction(e) {
+  e.preventDefault();
+  return false;
+};
+
+function mouseDownEvent(e, state) {
+  //when mouse clicks down on our canvas grid:
+  //determine which pixel it has touched.
+  var mouse = state.getMouse(e);
+  state.dragging = true;
+
+  //mouse.x,mouse.y now give us our position, now loop through
+  //our pixels until the one that contains the mouse is found
+  for(var i = 0; i < state.pixels.length; i++) {
+    if(state.pixels[i].contains(mouse.x, mouse.y)) {
+      var selection = state.pixels[i];
+      state.render = true;
+
+      selection.fill = '#000000';
+      state.draw();
+      sendSinglePixel(state, i, socket);
+    }
+  }
+};
+
+function mouseMoveEvent(e, state) {
+  var mouse = state.getMouse(e);
+
+  for(var i = 0; i < state.pixels.length; i++) {
+    if(state.pixels[i].contains(mouse.x, mouse.y)) {
+      state.render = true;
+      var selection = state.pixels[i];
+
+      if(!state.dragging) {
+        state.draw();
+        //add highlight on top of the current pixel
+        selection.drawHighlight(state.ctx);
+      }
+      else {
+        selection.fill = '#000000';
+        state.draw();
+        sendSinglePixel(state, i, socket);
+      }
+    }
+  }
+};
+
+function mouseLeaveEvent(e, state) {
+  //essentially redraw the canvas without drawing the highlight
+  state.render = true;
+  state.draw();
+};
