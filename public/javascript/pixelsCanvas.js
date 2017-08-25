@@ -104,23 +104,53 @@ CanvasState.prototype.draw = function() {
   }
 };
 
-function setUpGrid(grid) {
-  //ideally this will get a 'global' state of what the grid looks like right now
-  //and then display it to the user.
+function setUpGrid(grid, dimmensions, colors) {
+  //TODO: passed along dimmensions, use it to build an
+  //appropriate grid
   for(var i = 0; i < 5; i++) {
     for (var j = 0; j < 5; j++) {
-      var tempPixelInstance = new Pixel(j*20, i*20, 20, 20, '#ffffff');
-      tempPixelInstance.draw(grid.ctx);
+      var hex = rgbToHEX(colors[i*5 + j]);
+      var tempPixelInstance = new Pixel(j*20, i*20, 20, 20, hex);
       grid.pixels.push(tempPixelInstance);
     }
   }
+  grid.render = true;
+  grid.draw();
+}
+
+function updateGrid(grid, colors) {
+  //again, use dimmension variables here instead
+  for(var i = 0; i < 5*5; i++) {
+    var hex = rgbToHEX(colors[i]);
+    grid.pixels[i].fill = hex;
+  }
+  grid.render = true;
+  grid.draw();
+}
+
+function clearGrid(grid) {
+  for(var i = 0; i < 5; i++) {
+    for(var j =0; j < 5; j++) {
+      grid.pixels.pop();
+    }
+  }
+  grid.render = true;
+  grid.draw();
 }
 
 function init() {
   var grid = new CanvasState(document.getElementById('editor'));
-  setUpGrid(grid);
 
-  sendAllPixels(grid, socket);
+  socket.on('boardConnect', function(data) {
+    setUpGrid(grid, data.dimmensions, data.boardState);
+  })
+  socket.on('boardUpdate', function(data) {
+    updateGrid(grid, data.boardState);
+  });
+  socket.on('boardDisconnect', function() {
+    clearGrid(grid);
+  })
+  //sendAllPixels(grid, socket);
   //sendSinglePixel(grid, 2, socket);
 }
 

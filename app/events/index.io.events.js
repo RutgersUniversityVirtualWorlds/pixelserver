@@ -1,12 +1,17 @@
 module.exports = function(io) {
   let controller = require('../controllers/index.io.controllers.js')
 
-  let led = {id: null};
+  let led = {id: null,
+    dimmensions: {
+      width: 0,
+      height: 0
+    },
+    boardState: []
+  };
 
   io.on('connection', function(socket) {
 
     socket.on('identifier', function(data) {
-      console.log('A ' + data.type + ' has connected');
       controller.verify(socket, data, led);
     });
 
