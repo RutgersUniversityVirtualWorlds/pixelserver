@@ -2,6 +2,7 @@
 <html>
 <head>
   <title> Test </title>
+  <link rel="stylesheet" type="text/css" href="/css/reset.css" media="screen" />
   <link rel="stylesheet" type="text/css" href="/css/main.css" media="screen" />
   <!-- A standalone build of socket.io-client is exposed
   automatically by the socket.io server as /socket.io/socket.io.js. -->
@@ -14,32 +15,34 @@
   </script>
 
   <script type="text/javascript" src="javascript/vue/vue.js"></script>
+  <script type="text/javascript" src="javascript/vue/vue-color.js"></script>
 
 </head>
 <body>
-  <div id="app">
     <!--
     Because canvas considers 0,0 to be the top-right most position
     and not the top-right most pixel, we must add an aditional pixel
     to our canvas so we can draw our lines starting from (0.5,0.5) which
     effectively draws our pixels starting at the top-right most pixel of (1,1)
     -->
-    <canvas id="editor" width="50" height="50">
-    <!-- TODO: Add fallback response. -->
-    </canvas>
-    <canvas id="tools" width="41" height="101">
-    </canvas>
-  </div>
+    <canvas id="editor" width="50" height="50"></canvas>
 
-  <script type="text/javascript" src="javascript/canvasVueApp.js"></script>
+    <div id="canvasApp">
+      <compact-picker v-model="color" />
+    </div>
+
+
 
   <script type="text/javascript" src="javascript/socketFunctions.js"></script>
+
   <script type="text/javascript" src="javascript/mouseEvents.js"></script>
 
   <script type="text/javascript" src="javascript/PixelConstructor.js"></script>
   <script type="text/javascript" src="javascript/CanvasStateConstructor.js"></script>
-
   <script type="text/javascript" src="javascript/init.js"></script>
+
+  <script type="text/javascript" src="javascript/canvasVueApp.js"></script>
+
 
 </body>
 </html>
