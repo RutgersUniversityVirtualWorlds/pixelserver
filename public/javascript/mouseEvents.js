@@ -12,13 +12,18 @@ function mouseDownEvent(e, state) {
   //mouse.x,mouse.y now give us our position, now loop through
   //our pixels until the one that contains the mouse is found
   for(var i = 0; i < state.pixels.length; i++) {
-    if(state.pixels[i].contains(mouse.x, mouse.y)) {
+    if(state.pixels[i].contains(mouse.x, mouse.y) && state.pixels[i].fill !== '#000000') {
       var selection = state.pixels[i];
       state.render = true;
 
+      //TODO: !== to currentActiveColor not #000000
       selection.fill = '#000000';
       state.draw();
       sendSinglePixel(state, i, socket);
+
+      //once the active pixel is found, no need to loop
+      //through the rest of the for loop
+      break;
     }
   }
 };
@@ -36,11 +41,13 @@ function mouseMoveEvent(e, state) {
         //add highlight on top of the current pixel
         selection.drawHighlight(state.ctx);
       }
-      else {
+      else if(state.dragging && selection.fill !== '#000000'){
         selection.fill = '#000000';
         state.draw();
         sendSinglePixel(state, i, socket);
       }
+
+      break;
     }
   }
 };

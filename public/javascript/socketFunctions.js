@@ -40,7 +40,7 @@ function sendAllPixels(grid, socket) {
 function sendSinglePixel(grid, pixelNum, socket) {
   var pixelFillHex = grid.pixels[pixelNum].fill;
   var pixelRGBVersion = hexToRGB(pixelFillHex);
-  console.log(pixelNum);
+
   socket.emit('post', {
     type: 'single-pixel',
     pixel: pixelNum,
