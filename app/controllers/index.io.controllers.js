@@ -1,13 +1,14 @@
 module.exports = {
   verify: function(socket, data, led) {
     console.log('A ' + data.type + ' has connected');
-    if(data.type === 'web-client') {
-      if(led.id !== null) {
-        socket.emit('boardConnect', {dimmensions: led.dimmensions, boardState: led.boardState});
-      }
+    if(data.type === 'web-client' && led.id !== null) {
+      socket.emit('boardConnect', {dimmensions: led.dimmensions, boardState: led.boardState});
     }
     else if(data.type === 'device') {
-      if(led.id === null) {
+      if(led.id !== null) {
+        console.log('A device has already been connected');
+      }
+      else {
         led.id = socket.id;
         led.dimmensions.width = data.dimmensions.width;
         led.dimmensions.height = data.dimmensions.height;
@@ -19,14 +20,14 @@ module.exports = {
         console.log('Emitting state to all currently connected users');
         socket.broadcast.emit('boardConnect', {dimmensions: led.dimmensions, boardState: led.boardState});
       }
-      else {
-        console.log('A device has already been connected');
-      }
     }
   },
 
   post: function(socket, data, led) {
-    if(led.id !== null) { //if led exists
+    if(led.id === null) { //if led doesnt exists
+      console.log("couldn't send the message, no device currently connected");
+    }
+    else {
       if(data.type === 'single-pixel') {
           socket.to(led.id).emit('read', {type: data.type, pixel: data.pixel, color: data.color});
           //also update our global variable of led board state
@@ -42,12 +43,13 @@ module.exports = {
       }
       socket.broadcast.emit('boardUpdate', {boardState: led.boardState});
     }
-    else {
-      console.log("couldn't send the message, no device currently connected");
-    }
   },
+
   disconnect: function(socket, led) {
-    if(socket.id === led.id) {
+    if(socket.id !== led.id) {
+      console.log('A web-client has disconnected');
+    }
+    else {
       //clear all the web-client boards
       socket.broadcast.emit('boardDisconnect');
 
@@ -56,9 +58,6 @@ module.exports = {
       led.dimmensions.width = 0;
       led.dimmensions.height = 0;
       console.log('The device has disconnected');
-    }
-    else {
-        console.log('A web-client has disconnected');
     }
   }
 };

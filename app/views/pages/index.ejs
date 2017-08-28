@@ -12,16 +12,34 @@
       socket.emit('identifier', {type: 'web-client'});
     });
   </script>
+
+  <script type="text/javascript" src="javascript/vue/vue.js"></script>
+
 </head>
 <body>
-  <canvas id="editor" width="101" height="101">
+  <div id="app">
+    <!--
+    Because canvas considers 0,0 to be the top-right most position
+    and not the top-right most pixel, we must add an aditional pixel
+    to our canvas so we can draw our lines starting from (0.5,0.5) which
+    effectively draws our pixels starting at the top-right most pixel of (1,1)
+    -->
+    <canvas id="editor" width="50" height="50">
     <!-- TODO: Add fallback response. -->
-  </canvas>
+    </canvas>
+    <canvas id="tools" width="41" height="101">
+    </canvas>
+  </div>
+
+  <script type="text/javascript" src="javascript/canvasVueApp.js"></script>
 
   <script type="text/javascript" src="javascript/socketFunctions.js"></script>
-  <script type="text/javascript" src="javascript/PixelConstructor.js"></script>
   <script type="text/javascript" src="javascript/mouseEvents.js"></script>
-  <script type="text/javascript" src="javascript/pixelsCanvas.js"></script>
+
+  <script type="text/javascript" src="javascript/PixelConstructor.js"></script>
+  <script type="text/javascript" src="javascript/CanvasStateConstructor.js"></script>
+
+  <script type="text/javascript" src="javascript/init.js"></script>
 
 </body>
 </html>
