@@ -14,6 +14,9 @@ function hexToRGB(hex) { //expecting a hex string of type #xxxxxx
 function rgbToHEX(rgb) {
   var hex = '#';
   for(var i = 0; i < 3; i++) {
+    if(rgb[i] < 16) {
+      hex += "0";
+    }
     hex += rgb[i].toString(16);
   }
 
