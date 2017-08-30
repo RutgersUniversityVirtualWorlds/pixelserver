@@ -29,18 +29,18 @@ function clearGrid(grid) {
   grid.draw();
 }
 
-var grid = new CanvasState(document.getElementById('editor'));
+pxl.grid = new CanvasState(document.getElementById('editor'), pxl.socket);
 
-socket.on('boardConnect', function(data) {
-  grid.canvas.width = data.dimmensions.width * 20 + 1;
-  grid.canvas.height = data.dimmensions.height * 20 + 1;
-  grid.ctx.clearRect( 0, 0, grid.ctx.canvas.width, grid.ctx.canvas.height);
+pxl.socket.on('boardConnect', function(data) {
+  pxl.grid.canvas.width = data.dimmensions.width * 20 + 1;
+  pxl.grid.canvas.height = data.dimmensions.height * 20 + 1;
+  pxl.grid.ctx.clearRect( 0, 0, pxl.grid.ctx.canvas.width, pxl.grid.ctx.canvas.height);
 
-  setUpGrid(grid, data.dimmensions, data.boardState);
+  setUpGrid(pxl.grid, data.dimmensions, data.boardState);
 });
-socket.on('boardUpdate', function(data) {
-  updateGrid(grid, data.boardState);
+pxl.socket.on('boardUpdate', function(data) {
+  updateGrid(pxl.grid, data.boardState);
 });
-socket.on('boardDisconnect', function() {
-  clearGrid(grid);
+pxl.socket.on('boardDisconnect', function() {
+  clearGrid(pxl.grid);
 });

@@ -3,9 +3,10 @@ tutorial: https://github.com/simonsarris/Canvas-tutorials/blob/master/shapes.js
 by Simon Sarris ( www.simonsarris.com, sarris@acm.org)
 Thanks for helping make this project possible. - Gibran */
 
-function CanvasState(canvas) {
+function CanvasState(canvas, socket) {
   /******* setup **********/
   this.canvas = canvas;
+  this.socket = socket;
   this.width = canvas.width;
   this.height = canvas.height;
   this.ctx = canvas.getContext('2d');

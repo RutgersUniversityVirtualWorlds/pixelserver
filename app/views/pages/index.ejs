@@ -4,13 +4,16 @@
   <title> Test </title>
   <link rel="stylesheet" type="text/css" href="/css/reset.css" media="screen" />
   <link rel="stylesheet" type="text/css" href="/css/main.css" media="screen" />
+
+  <script type="text/javascript" src="javascript/global.js"></script>
+
   <!-- A standalone build of socket.io-client is exposed
   automatically by the socket.io server as /socket.io/socket.io.js. -->
   <script src="/socket.io/socket.io.js"></script>
   <script>
-    var socket = io();
-    socket.on('connect', function() {
-      socket.emit('identifier', {type: 'web-client'});
+    pxl.socket = io();
+    pxl.socket.on('connect', function() {
+      pxl.socket.emit('identifier', {type: 'web-client'});
     });
   </script>
 
@@ -27,19 +30,18 @@
     -->
     <canvas id="editor" width="50" height="50"></canvas>
 
-    <div id="canvasApp">
+    <div id="colorPickerApp">
       <compact-picker v-model="color" />
     </div>
 
 
 
   <script type="text/javascript" src="javascript/socketFunctions.js"></script>
-
   <script type="text/javascript" src="javascript/mouseEvents.js"></script>
 
   <script type="text/javascript" src="javascript/PixelConstructor.js"></script>
   <script type="text/javascript" src="javascript/CanvasStateConstructor.js"></script>
-  <script type="text/javascript" src="javascript/init.js"></script>
+  <script type="text/javascript" src="javascript/canvasInit.js"></script>
 
   <script type="text/javascript" src="javascript/canvasVueApp.js"></script>
 

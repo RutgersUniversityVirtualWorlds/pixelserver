@@ -26,10 +26,11 @@ function rgbToHEX(rgb) {
 
 //the following two functions should also send that information to
 //all the other users so they can update their own renders of the grid
-function sendAllPixels(grid, socket) {
+//pass in state.pixels and state.socket
+function sendAllPixels(pixels, socket) {
   var ledArray = [];
-  for(var i = 0; i < grid.pixels.length; i++) {
-    var hexVersion = grid.pixels[i].fill;
+  for(var i = 0; i < pixels.length; i++) {
+    var hexVersion = pixels[i].fill;
     var RGBVersion = hexToRGB(hexVersion);
     ledArray.push(RGBVersion);
   }
@@ -40,8 +41,8 @@ function sendAllPixels(grid, socket) {
   });
 }
 
-function sendSinglePixel(grid, pixelNum, socket) {
-  var pixelFillHex = grid.pixels[pixelNum].fill;
+function sendSinglePixel(pixel, pixelNum, socket) {
+  var pixelFillHex = pixel.fill;
   var pixelRGBVersion = hexToRGB(pixelFillHex);
 
   socket.emit('post', {

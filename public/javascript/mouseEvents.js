@@ -18,7 +18,7 @@ function mouseDownEvent(e, state) {
 
       selection.fill = state.activeColor;
       state.draw();
-      sendSinglePixel(state, i, socket);
+      sendSinglePixel(selection, i, state.socket);
 
       //once the active pixel is found, no need to loop
       //through the rest of the for loop
@@ -43,7 +43,7 @@ function mouseMoveEvent(e, state) {
       else if(state.dragging && selection.fill !== state.activeColor){
         selection.fill = state.activeColor;
         state.draw();
-        sendSinglePixel(state, i, socket);
+        sendSinglePixel(selection, i, state.socket);
       }
 
       break;

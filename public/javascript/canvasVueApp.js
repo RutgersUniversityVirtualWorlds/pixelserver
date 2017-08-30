@@ -6,7 +6,7 @@ var currentColor = {
 }
 
 var canvasApp = new Vue({
-  el: '#canvasApp',
+  el: '#colorPickerApp',
   components: {
     'compact-picker': compact
   },
@@ -14,8 +14,8 @@ var canvasApp = new Vue({
     color: currentColor
   },
   updated: function() {
-    if(grid) {
-      grid.activeColor = canvasApp.color.hex;
+    if(pxl.grid) {
+      pxl.grid.activeColor = canvasApp.color.hex;
     }
   }
 })
