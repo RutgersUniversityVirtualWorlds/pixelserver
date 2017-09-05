@@ -4,12 +4,12 @@ function Pixel(x,y, w, h, fill) {
   this.y = y || 0;
   this.w = w || 20;
   this.h = h || 20;
-  this.fill = fill || '#AAAAAA';
+  this.fill = fill || [255,255,255];
 }
 
 //draw pixel to ctx
 Pixel.prototype.draw = function(ctx) {
-  ctx.fillStyle = this.fill;
+  ctx.fillStyle = 'rgb(' + this.fill[0] + ',' + this.fill[1] + ',' + this.fill[2] + ')';
   //seems to have overlapping issues where a single pixel selects two different boxes
   ctx.fillRect(this.x, this.y, this.w, this.h);
   //https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Applying_styles_and_colors

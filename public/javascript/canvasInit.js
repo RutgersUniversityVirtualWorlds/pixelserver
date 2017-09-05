@@ -2,8 +2,7 @@
 function setUpGrid(grid, dimmensions, colors) {
   for(var i = 0; i < dimmensions.height; i++) { //rows (height)
     for (var j = 0; j < dimmensions.width; j++) { //columns (width)
-      var hex = rgbToHEX(colors[i*dimmensions.height + j]);
-      var tempPixelInstance = new Pixel(j*20, i*20, 20, 20, hex);
+      var tempPixelInstance = new Pixel(j*20, i*20, 20, 20, colors[i*dimmensions.height + j]);
       grid.pixels.push(tempPixelInstance);
     }
   }
@@ -14,8 +13,7 @@ function setUpGrid(grid, dimmensions, colors) {
 function updateGrid(grid, colors) {
   //traversing all the pixels
   for(var i = 0; i < grid.pixels.length; i++) {
-    var hex = rgbToHEX(colors[i]);
-    grid.pixels[i].fill = hex;
+    grid.pixels[i].fill = colors[i];
   }
   grid.render = true;
   grid.draw();

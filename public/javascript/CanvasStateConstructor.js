@@ -10,7 +10,7 @@ function CanvasState(canvas, socket) {
   this.width = canvas.width;
   this.height = canvas.height;
   this.ctx = canvas.getContext('2d');
-  this.activeColor = "#7b64ff";
+  this.activeColor = [123, 100, 255];
 
   // This complicates things a little but but fixes mouse co-ordinate problems
   // when there's a border or padding. See getMouse for more detail

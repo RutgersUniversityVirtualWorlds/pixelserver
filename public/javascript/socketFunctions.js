@@ -1,38 +1,11 @@
-function hexToRGB(hex) { //expecting a hex string of type #xxxxxx
-  //strip first letter ('#')
-  var rgbString = hex.slice(1);
-
-  var red = rgbString.substr(0,2);
-  var green = rgbString.substr(2,2);
-  var blue = rgbString.substr(4,2);
-
-  //return an array [R,G,B]
-  return [parseInt(red, 16), parseInt(green, 16), parseInt(blue, 16)];
-}
-
-//expect an [R,G,B] array of ints
-function rgbToHEX(rgb) {
-  var hex = '#';
-  for(var i = 0; i < 3; i++) {
-    if(rgb[i] < 16) {
-      hex += "0";
-    }
-    hex += rgb[i].toString(16);
-  }
-
-  //return a hex string '#xxxxxx'
-  return hex;
-}
-
 //the following two functions should also send that information to
 //all the other users so they can update their own renders of the grid
-//pass in state.pixels and state.socket
+//pass in state.pixels and state.socket <- handled by server
+
 function sendAllPixels(pixels, socket) {
   var ledArray = [];
   for(var i = 0; i < pixels.length; i++) {
-    var hexVersion = pixels[i].fill;
-    var RGBVersion = hexToRGB(hexVersion);
-    ledArray.push(RGBVersion);
+    ledArray.push(pixels[i].fill);
   }
 
   socket.emit('post', {
@@ -42,12 +15,11 @@ function sendAllPixels(pixels, socket) {
 }
 
 function sendSinglePixel(pixel, pixelNum, socket) {
-  var pixelFillHex = pixel.fill;
-  var pixelRGBVersion = hexToRGB(pixelFillHex);
+  var pixelFill = pixel.fill;
 
   socket.emit('post', {
     type: 'single-pixel',
     pixel: pixelNum,
-    color: pixelRGBVersion
+    color: pixelFill
   });
 }
