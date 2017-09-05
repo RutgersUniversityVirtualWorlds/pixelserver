@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title> Test </title>
+  <title> Pixel </title>
   <link rel="stylesheet" type="text/css" href="/css/reset.css" media="screen" />
   <link rel="stylesheet" type="text/css" href="/css/main.css" media="screen" />
+  <script src="https://use.fontawesome.com/39ddb2bf02.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet">
+  
+
 
   <script type="text/javascript" src="javascript/global.js"></script>
 
@@ -22,17 +26,22 @@
 
 </head>
 <body>
-    <!--
-    Because canvas considers 0,0 to be the top-right most position
-    and not the top-right most pixel, we must add an aditional pixel
-    to our canvas so we can draw our lines starting from (0.5,0.5) which
-    effectively draws our pixels starting at the top-right most pixel of (1,1)
-    -->
-    <canvas id="editor" width="50" height="50"></canvas>
+  <div id="contentWrapper">
 
-    <div id="colorPickerApp">
-      <compact-picker v-model="color" />
-    </div>
+      <h1 id="appTitle"> <i class="fa fa-edit"></i> PIXEL </h1>
+
+      <!--
+      Because canvas considers 0,0 to be the top-right most position
+      and not the top-right most pixel, we must add an aditional pixel
+      to our canvas so we can draw our lines starting from (0.5,0.5) which
+      effectively draws our pixels starting at the top-right most pixel of (1,1)
+      -->
+      <canvas id="editor" width="50" height="50"></canvas>
+
+      <div id="colorPickerApp">
+        <compact-picker v-model="color" />
+      </div>
+  </div>
 
 
 

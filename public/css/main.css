@@ -1,3 +1,26 @@
+body {
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+#contentWrapper {
+  padding: 10px;
+  display: block;
+  width: 250px;
+  height: 230px;
+  margin: 40px auto;
+
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(150,150,150,1);
+  -moz-box-shadow: 0px 0px 5px 0px rgba(150,150,150,1);
+  box-shadow: 0px 0px 5px 0px rgba(150,150,150,1);
+
+}
+
+#appTitle {
+  text-align: center;
+}
+
 #editor {
-  /*border: 1px solid #202020;*/
+  display: block;
+  margin: 20px auto;
+  cursor: url('/images/iconmonstr-pencil-4-16.png') 0 16, auto;
 }
