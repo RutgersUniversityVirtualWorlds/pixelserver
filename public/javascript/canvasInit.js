@@ -1,8 +1,8 @@
 
 function setUpGrid(grid, dimmensions, colors) {
   for(var i = 0; i < dimmensions.height; i++) { //rows (height)
-    for (var j = 0; j < dimmensions.width; j++) { //columns (width)
-      var tempPixelInstance = new Pixel(j*20, i*20, 20, 20, colors[i*dimmensions.height + j]);
+    for(var j = 0; j < dimmensions.width; j++) { //columns (width)
+      var tempPixelInstance = new Pixel(j*20, i*20, 20, 20, colors[i*dimmensions.width + j]);
       grid.pixels.push(tempPixelInstance);
     }
   }
