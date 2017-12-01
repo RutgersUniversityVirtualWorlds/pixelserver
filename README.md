@@ -6,75 +6,37 @@
 This project is an implementation of an LED wall controlled through the internet with the use of node, vue.js, johnny-five.js, and a microcontroller. This repository is the server side code that handles the communication between the LED wall and the users through socket.io. For the code handling the hardware implementation, please go [here](https://github.com/RutgersUniversityVirtualWorlds/pixelwall).
 
 ## Installing / Getting started
-## TO DO
+
+Everything is managed by npm.
+Simply initialize with the following:
+
+```shell
+npm init
+```
+
+Once everything is installed, run the server with:
+
+```shell
+node index.js
+```
 
 ## Developing
 
-### TO DO
 ### Built With
-List main libraries, frameworks used including versions (React, Angular etc...)
-
-
-### Prerequisites
-
-What is needed to set up the dev environment. For instance, global dependencies or any other tools. include download links.
-
-
-### Setting up Dev
-
-Here's a brief intro about what a developer must do in order to start developing
-the project further:
-
-```shell
-git clone https://github.com/your/your-project.git
-cd your-project/
-packagemanager install
-```
-
-And state what happens step-by-step. If there is any virtual environment, local server or database feeder needed, explain here.
-
-### Building
-
-If your project needs some additional steps for the developer to build the
-project after some code changes, state them here. for example:
-
-```shell
-./configure
-make
-make install
-```
-
-Here again you should state what actually happens when the code above gets
-executed.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning.
-Roughly, the version number represents MAJOR.MINOR.PATCH where an increment is
-    MAJOR version when you make incompatible API changes,
-    MINOR version when you add functionality in a backwards-compatible manner, and
-    PATCH version when you make backwards-compatible bug fixes.
-
-## Configuration
-
-### TO DO
-Here you should write what are all of the configurations a user can enter when
-using the project.
+Node.js version 6.11.1
+Express version ^4.15.4
+Socket.io version ^2.0.3
 
 ## Tests
 
 ### TO DO
-Describe and show how to run the tests with code examples.
-Explain what these tests test and why.
 
-```shell
-Give an example
+To run the tests simply type the following:
+
 ```
-
-## Style guide
-
-### TO DO
-Explain your code style and show how to check it.
+npm test
+```
+Tests can be found in ./tests/ and are built on mocha and chai.
 
 ## Licensing
 
