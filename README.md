@@ -11,7 +11,7 @@ Everything is managed by npm.
 Simply initialize with the following:
 
 ```shell
-npm init
+npm install
 ```
 
 Once everything is installed, run the server with:
@@ -19,6 +19,16 @@ Once everything is installed, run the server with:
 ```shell
 node index.js
 ```
+
+## Run as Docker
+```
+docker build  -t rianders/pixelserver .
+docker run -p 8080:3000  -d rianders/pixelserver
+docker ps
+docker logs <container id>
+docker exec -it <container id>   /bin/bash
+```
+
 
 ## Developing
 
