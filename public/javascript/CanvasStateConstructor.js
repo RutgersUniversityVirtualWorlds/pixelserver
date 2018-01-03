@@ -32,26 +32,35 @@ function CanvasState(canvas, socket) {
   this.render = false;
   this.dragging = false;
 
-  /******* Mouse Events *******/
+  /****** Events *****/
   //'this' is a newly created CanvasState object
   //thus this.canvas = canvas reffers to the canvas we passed along
-  //make a self-reference to CanvasState for when we trigger mouseEvents
+  //make a self-reference to CanvasState for when we trigger events
   var state = this;
 
+  /******* Mouse Events *******/
   //fixes a problem where double clicking causes text to get selected on the canvas
- canvas.addEventListener('selectstart', function(e) { return preventDefaultFunction(e); }, false);
+  canvas.addEventListener('selectstart', function(e) { return preventDefaultFunction(e); }, false);
 
- //drawing pixels on mousedown
- canvas.addEventListener('mousedown', function(e) { mouseDownEvent(e, state); });
+  //drawing pixels on mousedown
+  canvas.addEventListener('mousedown', function(e) { mouseDownEvent(e, state); });
 
- //dragging functionality for drawing
- canvas.addEventListener('mousemove', function(e) { mouseMoveEvent(e, state); });
+  //dragging functionality for drawing
+  canvas.addEventListener('mousemove', function(e) { mouseMoveEvent(e, state); });
 
-//regardless of where on the window! A mouseup disables dragging
- window.addEventListener('mouseup', function(e) { state.dragging = false; });
+  //regardless of where on the window a mouseup disables dragging
+  window.addEventListener('mouseup', function(e) { mouseUpEvent(e, state); });
 
-//when mouse leaves canvas, highlight should dissapear
- canvas.addEventListener('mouseleave', function(e) { mouseLeaveEvent(e, state); });
+  //when mouse leaves canvas, highlight should dissapear
+  canvas.addEventListener('mouseleave', function(e) { mouseLeaveEvent(e, state); });
+
+  /****** Touch Events ******/
+  canvas.addEventListener('touchstart', function(e) { touchDownEvent(e, state);});
+
+  canvas.addEventListener('touchend', function(e) { touchUpEvent(e, state);});
+
+  canvas.addEventListener('touchmove', function(e) { touchMoveEvent(e, state);});
+
 };
 
 
@@ -59,6 +68,28 @@ function CanvasState(canvas, socket) {
 // If you wanna be super-correct this can be tricky, we have to worry about padding and borders
 CanvasState.prototype.getMouse = function(e) {
   var element = this.canvas;
+  var offset = this.getOffset(element);
+
+  var mx = e.pageX - offset.x;
+  var my = e.pageY - offset.y;
+
+  // We return a simple javascript object (a hash) with x and y defined
+  return {x: mx, y: my};
+};
+
+CanvasState.prototype.getTouch = function(e) {
+  var element = this.canvas;
+  var offset = this.getOffset(element);
+
+  //https://developer.mozilla.org/en-US/docs/Web/API/Touch/pageX
+  var tx = e.changedTouches[0].pageX - offset.x;
+  var ty = e.changedTouches[0].pageY - offset.y;
+
+  // We return a simple javascript object (a hash) with x and y defined
+  return {x: tx, y: ty};
+};
+
+CanvasState.prototype.getOffset = function(element) {
   var offsetX = 0;
   var offsetY = 0;
 
@@ -75,11 +106,7 @@ CanvasState.prototype.getMouse = function(e) {
   offsetX += this.stylePaddingLeft + this.styleBorderLeft + this.htmlLeft;
   offsetY += this.stylePaddingTop + this.styleBorderTop + this.htmlTop;
 
-  var mx = e.pageX - offsetX;
-  var my = e.pageY - offsetY;
-
-  // We return a simple javascript object (a hash) with x and y defined
-  return {x: mx, y: my};
+  return {x: offsetX, y: offsetY};
 };
 
 CanvasState.prototype.clear = function() {

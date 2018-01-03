@@ -27,6 +27,10 @@ function mouseDownEvent(e, state) {
   }
 };
 
+function mouseUpEvent(e, state) {
+  state.dragging = false;
+};
+
 function mouseMoveEvent(e, state) {
   var mouse = state.getMouse(e);
 
