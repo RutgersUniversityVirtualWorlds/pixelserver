@@ -1,11 +1,11 @@
 //basic pixel constructor
-function Pixel(x,y, w, h, fill) {
+const Pixel = function(x,y, w, h, fill) {
   this.x = x || 0;
   this.y = y || 0;
   this.w = w || 20;
   this.h = h || 20;
   this.fill = fill || [255,255,255];
-}
+};
 
 //draw pixel to ctx
 Pixel.prototype.draw = function(ctx) {
@@ -15,12 +15,12 @@ Pixel.prototype.draw = function(ctx) {
   //https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Applying_styles_and_colors
   ctx.strokeStyle = 'rgb(140,140,140)';
   ctx.strokeRect(this.x+0.5, this.y+0.5, this.w, this.h);
-}
+};
 
 Pixel.prototype.drawHighlight = function(ctx) {
   ctx.fillStyle = 'rgba(200,200,200, .5)';
   ctx.fillRect(this.x + 1, this.y + 1, this.w - 1, this.h - 1);
-}
+};
 
 //determine if mouse is currently within the bounds of the current pixel
 Pixel.prototype.contains = function(mx,my) {
@@ -31,4 +31,6 @@ Pixel.prototype.contains = function(mx,my) {
       return true;
   }
   else return false;
-}
+};
+
+export default Pixel;

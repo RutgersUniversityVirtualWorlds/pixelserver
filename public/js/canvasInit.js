@@ -1,3 +1,6 @@
+import pxl from './global.js';
+import Pixel from './PixelConstructor.js';
+import CanvasState from './CanvasStateConstructor.js';
 
 function setUpGrid(grid, dimmensions, colors) {
   for(var i = 0; i < dimmensions.height; i++) { //rows (height)

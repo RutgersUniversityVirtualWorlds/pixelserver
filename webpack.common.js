@@ -1,3 +1,11 @@
+/*
+This file holds all modifications that apply to both
+dev and production compilations. Applies babel to all
+.js files excluding node_modules, allows the use of 
+SASS for css and extracts all css into its own bundled
+file separate from the bundled js files.
+*/
+
 const webpack = require('webpack');
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');

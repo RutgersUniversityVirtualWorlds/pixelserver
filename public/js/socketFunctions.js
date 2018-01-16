@@ -2,7 +2,7 @@
 //all the other users so they can update their own renders of the grid
 //pass in state.pixels and state.socket <- handled by server
 
-function sendAllPixels(pixels, socket) {
+const sendAllPixels = function(pixels, socket) {
   var ledArray = [];
   for(var i = 0; i < pixels.length; i++) {
     ledArray.push(pixels[i].fill);
@@ -12,9 +12,9 @@ function sendAllPixels(pixels, socket) {
     type: 'all-pixels',
     colors: ledArray
   });
-}
+};
 
-function sendSinglePixel(pixel, pixelNum, socket) {
+const sendSinglePixel = function(pixel, pixelNum, socket) {
   var pixelFill = pixel.fill;
 
   socket.emit('post', {
@@ -22,4 +22,6 @@ function sendSinglePixel(pixel, pixelNum, socket) {
     pixel: pixelNum,
     color: pixelFill
   });
-}
+};
+
+export {sendAllPixels, sendSinglePixel};

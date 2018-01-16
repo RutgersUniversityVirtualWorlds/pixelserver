@@ -31,6 +31,12 @@ docker exec -it <container id>   /bin/bash
 
 
 ## Developing
+If working on front-end code (files under public directory) then run the following:
+```
+npm run-script build
+```
+This will allow webpack to build those files so they can be usable, but also runs an active watch on the same files in order to build them again whenever any changes to these files occur.
+The built files can be found under the dist directory.
 
 ### Built With
 Node.js version 6.11.1

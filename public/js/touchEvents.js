@@ -1,14 +1,16 @@
+import {sendAllPixels, sendSinglePixel} from './socketFunctions.js';
+
 //when no dragging involved, mouseclick events are registered as well
 //meaning that for now, only really have to worry about touch control dragging
-function touchDownEvent(e, state) {
+const touchDownEvent = function(e, state) {
   state.dragging = true;
-}
+};
 
-function touchUpEvent(e, state) {
+const touchUpEvent = function(e, state) {
   state.dragging = false;
-}
+};
 
-function touchMoveEvent(e, state) {
+const touchMoveEvent = function(e, state) {
   var touch = state.getTouch(e);
   for(var i = 0; i < state.pixels.length; i++) {
     if(state.pixels[i].contains(touch.x, touch.y)) {
@@ -23,4 +25,6 @@ function touchMoveEvent(e, state) {
       break;
     }
   }
-}
+};
+
+export {touchDownEvent, touchUpEvent, touchMoveEvent};

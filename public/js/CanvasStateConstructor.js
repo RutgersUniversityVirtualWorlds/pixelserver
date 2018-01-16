@@ -1,9 +1,12 @@
+import {preventDefaultFunction, mouseDownEvent, mouseUpEvent, mouseMoveEvent, mouseLeaveEvent} from './mouseEvents.js';
+import {touchDownEvent, touchUpEvent, touchMoveEvent} from './touchEvents.js';
+
 /* This code is largely based off of the following
 tutorial: https://github.com/simonsarris/Canvas-tutorials/blob/master/shapes.js
 by Simon Sarris ( www.simonsarris.com, sarris@acm.org)
 Thanks for helping make this project possible. - Gibran */
 
-function CanvasState(canvas, socket) {
+const CanvasState = function(canvas, socket) {
   /******* setup **********/
   this.canvas = canvas;
   this.socket = socket;
@@ -132,3 +135,5 @@ CanvasState.prototype.draw = function() {
     this.render = false;
   }
 };
+
+export default CanvasState;

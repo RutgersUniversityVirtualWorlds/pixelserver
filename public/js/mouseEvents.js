@@ -1,9 +1,11 @@
-function preventDefaultFunction(e) {
+import {sendAllPixels, sendSinglePixel} from './socketFunctions.js';
+
+const preventDefaultFunction = function(e) {
   e.preventDefault();
   return false;
 };
 
-function mouseDownEvent(e, state) {
+const mouseDownEvent = function(e, state) {
   //when mouse clicks down on our canvas grid:
   //determine which pixel it has touched.
   var mouse = state.getMouse(e);
@@ -27,11 +29,11 @@ function mouseDownEvent(e, state) {
   }
 };
 
-function mouseUpEvent(e, state) {
+const mouseUpEvent = function(e, state) {
   state.dragging = false;
 };
 
-function mouseMoveEvent(e, state) {
+const mouseMoveEvent = function(e, state) {
   var mouse = state.getMouse(e);
 
   for(var i = 0; i < state.pixels.length; i++) {
@@ -55,8 +57,10 @@ function mouseMoveEvent(e, state) {
   }
 };
 
-function mouseLeaveEvent(e, state) {
+const mouseLeaveEvent = function(e, state) {
   //essentially redraw the canvas without drawing the highlight
   state.render = true;
   state.draw();
 };
+
+export {preventDefaultFunction, mouseDownEvent, mouseUpEvent, mouseMoveEvent, mouseLeaveEvent};
