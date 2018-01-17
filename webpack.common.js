@@ -18,7 +18,8 @@ let extractPlugin = new ExtractTextPlugin({
 module.exports = {
     entry: {
         main: './public/js/main.js',
-        index: './public/js/index.js'
+        pixelApp: './public/js/pixelApp.js',
+        canvasGrid: './public/js/canvasGrid.js'
     },
     output: {
         filename: '[name].bundle.js',

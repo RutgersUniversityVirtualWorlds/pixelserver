@@ -1,36 +1,25 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title> Pixel </title>
   <link rel="stylesheet" type="text/css" href="/main.bundle.css" media="screen" />
-  <link rel="stylesheet" type="text/css" href="/index.bundle.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="/pixelApp.bundle.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="/canvasGrid.bundle.css" media="screen" />
 
   <script src="https://use.fontawesome.com/39ddb2bf02.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet">
-
-
-  <script type="text/javascript" src="js/vue/vue.js"></script>
-  <script type="text/javascript" src="js/vue/vue-color.js"></script>
 </head>
+
 <body>
   <div id="contentWrapper">
-
       <h1 id="appTitle"> <i class="fa fa-edit"></i> PIXEL </h1>
-
-      <!--
-      Because canvas considers 0,0 to be the top-right most position
-      and not the top-right most pixel, we must add an aditional pixel
-      to our canvas so we can draw our lines starting from (0.5,0.5) which
-      effectively draws our pixels starting at the top-right most pixel of (1,1)
-      -->
       <canvas id="editor" width="50" height="50"></canvas>
-
-      <div id="colorPickerApp">
-        <compact-picker v-model="color" />
-      </div>
   </div>
 
   <script type="text/javascript" src="main.bundle.js"></script>
-  <script type="text/javascript" src="index.bundle.js"></script>
+  <script type="text/javascript" src="pixelApp.bundle.js"></script>
+  <script type="text/javascript" src="canvasGrid.bundle.js"></script>
 </body>
+
 </html>

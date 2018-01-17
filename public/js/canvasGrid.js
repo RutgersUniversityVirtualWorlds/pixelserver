@@ -1,7 +1,19 @@
-import pxl from './global.js';
+import io from 'socket.io-client';
 import Pixel from './PixelConstructor.js';
 import CanvasState from './CanvasStateConstructor.js';
 
+var pxl = {};
+
+//Set up socket client connection
+pxl.socket = io();
+pxl.socket.on('connect', function() {
+  pxl.socket.emit('identifier', {type: 'web-client'});
+});
+
+//initialize a new Canvas object to draw on
+pxl.grid = new CanvasState(document.getElementById('editor'), pxl.socket);
+
+/****** Handle socket communication *****/
 function setUpGrid(grid, dimmensions, colors) {
   for(var i = 0; i < dimmensions.height; i++) { //rows (height)
     for(var j = 0; j < dimmensions.width; j++) { //columns (width)
@@ -30,8 +42,6 @@ function clearGrid(grid) {
   grid.draw();
 }
 
-pxl.grid = new CanvasState(document.getElementById('editor'), pxl.socket);
-
 pxl.socket.on('boardConnect', function(data) {
   pxl.grid.canvas.width = data.dimmensions.width * 20 + 1;
   pxl.grid.canvas.height = data.dimmensions.height * 20 + 1;
@@ -39,9 +49,11 @@ pxl.socket.on('boardConnect', function(data) {
 
   setUpGrid(pxl.grid, data.dimmensions, data.boardState);
 });
+
 pxl.socket.on('boardUpdate', function(data) {
   updateGrid(pxl.grid, data.boardState);
 });
+
 pxl.socket.on('boardDisconnect', function() {
   clearGrid(pxl.grid);
 });

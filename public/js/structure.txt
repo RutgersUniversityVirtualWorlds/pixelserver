@@ -1,0 +1,4 @@
+canvasGrid.js requires {CanvasStateConstructor.js, PixelConstructor.js, socket.io-client}
+  CanvasStateConstructor.js requires {mouseEvents.js, touchEvents.js}
+    mouseEvents.js requires {socketFunctions.js}
+    touchEvents.js requires {socketFunctions.js}
