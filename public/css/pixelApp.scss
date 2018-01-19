@@ -23,28 +23,35 @@ body {
     }
   }
 
-.flexWrapper {
-  width: 100vw;
-  height: 85vh;
-  background-image: url('/img/bg-pattern.png');
-  background-repeat: repeat;
-  background-size: 40px;
-
+.mainContent {
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  article {
-    #editor {
-      cursor: url('/img/iconmonstr-pencil-4-16.png') 0 16, auto;
-    }
-  }
+  justify-content: flex-end;
 }
 
-.actionsWrapper {
-  width: 100vw;
-  height: 15vh;
-  background-color: #F2F2F2;
-  border-top: solid 1px #B3B3B3;
-}
+  .flexWrapper {
+    width: 100vw;
+    background-image: url('/img/bg-pattern.png');
+    background-repeat: repeat;
+    background-size: 40px;
+    flex-grow: 1; /*fill up remaining space*/
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    article {
+      #editor {
+        cursor: url('/img/iconmonstr-pencil-4-16.png') 0 16, auto;
+      }
+    }
+  }
+
+  .actionsWrapper {
+    width: 100vw;
+    height: 8em;
+    background-color: #F2F2F2;
+    border-top: solid 1px #B3B3B3;
+  }
 
