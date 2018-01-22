@@ -1,6 +1,7 @@
 import io from 'socket.io-client';
 import Pixel from './PixelConstructor.js';
 import CanvasState from './CanvasStateConstructor.js';
+import {resizeCanvasElement} from './windowFunctions.js';
 
 var pxl = {};
 
@@ -12,12 +13,13 @@ pxl.socket.on('connect', function() {
 
 //initialize a new Canvas object to draw on
 pxl.grid = new CanvasState(document.getElementById('editor'), pxl.socket);
+//while there is no grid should have some sort of default display indicating no canvas active
 
-/****** Handle socket communication *****/
-function setUpGrid(grid, dimmensions, colors) {
+/****** HELPER FUNCTIONS *****/
+function setUpGrid(grid, dimmensions, pixelSize, colors) {
   for(var i = 0; i < dimmensions.height; i++) { //rows (height)
     for(var j = 0; j < dimmensions.width; j++) { //columns (width)
-      var tempPixelInstance = new Pixel(j*20, i*20, 20, 20, colors[i*dimmensions.width + j]);
+      var tempPixelInstance = new Pixel(j*pixelSize, i*pixelSize, pixelSize, pixelSize, colors[i*dimmensions.width + j]);
       grid.pixels.push(tempPixelInstance);
     }
   }
@@ -26,7 +28,6 @@ function setUpGrid(grid, dimmensions, colors) {
 }
 
 function updateGrid(grid, colors) {
-  //traversing all the pixels
   for(var i = 0; i < grid.pixels.length; i++) {
     grid.pixels[i].fill = colors[i];
   }
@@ -42,12 +43,14 @@ function clearGrid(grid) {
   grid.draw();
 }
 
-pxl.socket.on('boardConnect', function(data) {
-  pxl.grid.canvas.width = data.dimmensions.width * 20 + 1;
-  pxl.grid.canvas.height = data.dimmensions.height * 20 + 1;
-  pxl.grid.ctx.clearRect( 0, 0, pxl.grid.ctx.canvas.width, pxl.grid.ctx.canvas.height);
+/********** SOCKET HANDLING ******/
 
-  setUpGrid(pxl.grid, data.dimmensions, data.boardState);
+pxl.socket.on('boardConnect', function(data) {
+  pxl.grid.pWidth = data.dimmensions.width;
+  pxl.grid.pHeight = data.dimmensions.height;
+
+  var pixelSize = resizeCanvasElement(null, pxl.grid);
+  setUpGrid(pxl.grid, data.dimmensions, pixelSize, data.boardState);
 });
 
 pxl.socket.on('boardUpdate', function(data) {
@@ -56,4 +59,5 @@ pxl.socket.on('boardUpdate', function(data) {
 
 pxl.socket.on('boardDisconnect', function() {
   clearGrid(pxl.grid);
+  //should have some sort of display for the user
 });

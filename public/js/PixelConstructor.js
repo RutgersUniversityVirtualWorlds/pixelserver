@@ -7,6 +7,13 @@ const Pixel = function(x,y, w, h, fill) {
   this.fill = fill || [255,255,255];
 };
 
+Pixel.prototype.updatePixelSize = function(x, y, w, h) {
+  this.x = x || this.x;
+  this.y = y || this.y;
+  this.w = w || this.w;
+  this.h = h || this.h;
+}
+
 //draw pixel to ctx
 Pixel.prototype.draw = function(ctx) {
   ctx.fillStyle = 'rgb(' + this.fill[0] + ',' + this.fill[1] + ',' + this.fill[2] + ')';

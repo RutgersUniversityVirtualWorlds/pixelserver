@@ -1,5 +1,6 @@
 import {preventDefaultFunction, mouseDownEvent, mouseUpEvent, mouseMoveEvent, mouseLeaveEvent} from './mouseEvents.js';
 import {touchDownEvent, touchUpEvent, touchMoveEvent} from './touchEvents.js';
+import {resizeGrid} from './windowFunctions.js';
 
 /* This code is largely based off of the following
 tutorial: https://github.com/simonsarris/Canvas-tutorials/blob/master/shapes.js
@@ -10,8 +11,7 @@ const CanvasState = function(canvas, socket) {
   /******* setup **********/
   this.canvas = canvas;
   this.socket = socket;
-  this.width = canvas.width;
-  this.height = canvas.height;
+
   this.ctx = canvas.getContext('2d');
   this.activeColor = [123, 100, 255];
 
@@ -24,6 +24,7 @@ const CanvasState = function(canvas, socket) {
     this.styleBorderLeft  = parseInt(document.defaultView.getComputedStyle(canvas, null)['borderLeftWidth'], 10)  || 0;
     this.styleBorderTop   = parseInt(document.defaultView.getComputedStyle(canvas, null)['borderTopWidth'], 10)   || 0;
   }
+
   // Some pages have fixed-position bars (like the stumbleupon bar) at the top or left of the page
   // They will mess up mouse coordinates and this fixes that
   var html = document.body.parentNode;
@@ -63,6 +64,9 @@ const CanvasState = function(canvas, socket) {
   canvas.addEventListener('touchend', function(e) { touchUpEvent(e, state);});
 
   canvas.addEventListener('touchmove', function(e) { touchMoveEvent(e, state);});
+
+  /******* Other Events *****/
+  window.addEventListener('resize', function(e) { resizeGrid(e, state);});
 
 };
 
