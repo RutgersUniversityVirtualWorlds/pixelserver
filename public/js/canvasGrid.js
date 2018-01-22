@@ -1,6 +1,7 @@
 import io from 'socket.io-client';
 import Pixel from './PixelConstructor.js';
 import CanvasState from './CanvasStateConstructor.js';
+import View from './ViewConstructor.js';
 import {resizeCanvasElement} from './windowFunctions.js';
 
 var pxl = {};
@@ -14,6 +15,9 @@ pxl.socket.on('connect', function() {
 //initialize a new Canvas object to draw on
 pxl.grid = new CanvasState(document.getElementById('editor'), pxl.socket);
 //while there is no grid should have some sort of default display indicating no canvas active
+
+pxl.view = new View(document.getElementById('view'), pxl.grid);
+
 
 /****** HELPER FUNCTIONS *****/
 function setUpGrid(grid, dimmensions, pixelSize, colors) {

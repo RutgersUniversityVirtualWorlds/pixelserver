@@ -11,6 +11,9 @@ const touchUpEvent = function(e, state) {
 };
 
 const touchMoveEvent = function(e, state) {
+  //When dragging inside canvas, want to disable the scrolling functionality.
+  e.preventDefault();
+
   var touch = state.getTouch(e);
   for(var i = 0; i < state.pixels.length; i++) {
     if(state.pixels[i].contains(touch.x, touch.y)) {

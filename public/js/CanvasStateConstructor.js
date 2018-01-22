@@ -44,26 +44,26 @@ const CanvasState = function(canvas, socket) {
 
   /******* Mouse Events *******/
   //fixes a problem where double clicking causes text to get selected on the canvas
-  canvas.addEventListener('selectstart', function(e) { return preventDefaultFunction(e); }, false);
+  this.canvas.addEventListener('selectstart', function(e) { return preventDefaultFunction(e); }, false);
 
   //drawing pixels on mousedown
-  canvas.addEventListener('mousedown', function(e) { mouseDownEvent(e, state); });
+  this.canvas.addEventListener('mousedown', function(e) { mouseDownEvent(e, state); });
 
   //dragging functionality for drawing
-  canvas.addEventListener('mousemove', function(e) { mouseMoveEvent(e, state); });
+  this.canvas.addEventListener('mousemove', function(e) { mouseMoveEvent(e, state); });
 
   //regardless of where on the window a mouseup disables dragging
   window.addEventListener('mouseup', function(e) { mouseUpEvent(e, state); });
 
   //when mouse leaves canvas, highlight should dissapear
-  canvas.addEventListener('mouseleave', function(e) { mouseLeaveEvent(e, state); });
+  this.canvas.addEventListener('mouseleave', function(e) { mouseLeaveEvent(e, state); });
 
   /****** Touch Events ******/
-  canvas.addEventListener('touchstart', function(e) { touchDownEvent(e, state);});
+  this.canvas.addEventListener('touchstart', function(e) { touchDownEvent(e, state);});
 
-  canvas.addEventListener('touchend', function(e) { touchUpEvent(e, state);});
+  this.canvas.addEventListener('touchend', function(e) { touchUpEvent(e, state);});
 
-  canvas.addEventListener('touchmove', function(e) { touchMoveEvent(e, state);});
+  this.canvas.addEventListener('touchmove', function(e) { touchMoveEvent(e, state);});
 
   /******* Other Events *****/
   window.addEventListener('resize', function(e) { resizeGrid(e, state);});
