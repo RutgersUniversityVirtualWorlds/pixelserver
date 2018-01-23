@@ -1,16 +1,19 @@
-import {preventDefaultFunction, mouseDownEvent, mouseUpEvent, mouseMoveEvent, mouseLeaveEvent} from './mouseEvents.js';
-import {touchDownEvent, touchUpEvent, touchMoveEvent} from './touchEvents.js';
+import {mouseDownEvent, mouseMoveEvent, mouseUpEvent, mouseLeaveEvent} from './mouseEvents.js';
+import {touchHandler} from './touchEvents.js';
 import {resizeGrid} from './windowFunctions.js';
 
-/* This code is largely based off of the following
+/* This code is based off of the following
 tutorial: https://github.com/simonsarris/Canvas-tutorials/blob/master/shapes.js
 by Simon Sarris ( www.simonsarris.com, sarris@acm.org)
 Thanks for helping make this project possible. - Gibran */
 
-const CanvasState = function(canvas, socket) {
+const CanvasState = function(canvas, socket, touches) {
   /******* setup **********/
   this.canvas = canvas;
+  this.id = this.canvas.id;
   this.socket = socket;
+
+  this.touches = touches;
 
   this.ctx = canvas.getContext('2d');
   this.activeColor = [123, 100, 255];
@@ -19,13 +22,13 @@ const CanvasState = function(canvas, socket) {
   // when there's a border or padding. See getMouse for more detail
   var stylePaddingLeft, stylePaddingTop, styleBorderLeft, styleBorderTop;
   if (document.defaultView && document.defaultView.getComputedStyle) {
-    this.stylePaddingLeft = parseInt(document.defaultView.getComputedStyle(canvas, null)['paddingLeft'], 10)      || 0;
-    this.stylePaddingTop  = parseInt(document.defaultView.getComputedStyle(canvas, null)['paddingTop'], 10)       || 0;
-    this.styleBorderLeft  = parseInt(document.defaultView.getComputedStyle(canvas, null)['borderLeftWidth'], 10)  || 0;
-    this.styleBorderTop   = parseInt(document.defaultView.getComputedStyle(canvas, null)['borderTopWidth'], 10)   || 0;
+    this.stylePaddingLeft = parseInt(document.defaultView.getComputedStyle(canvas, null)['paddingLeft'], 10) || 0;
+    this.stylePaddingTop = parseInt(document.defaultView.getComputedStyle(canvas, null)['paddingTop'], 10) || 0;
+    this.styleBorderLeft = parseInt(document.defaultView.getComputedStyle(canvas, null)['borderLeftWidth'], 10) || 0;
+    this.styleBorderTop = parseInt(document.defaultView.getComputedStyle(canvas, null)['borderTopWidth'], 10) || 0;
   }
 
-  // Some pages have fixed-position bars (like the stumbleupon bar) at the top or left of the page
+  // Some pages have fixed-position bars at the top or left of the page
   // They will mess up mouse coordinates and this fixes that
   var html = document.body.parentNode;
   this.htmlTop = html.offsetTop;
@@ -44,26 +47,26 @@ const CanvasState = function(canvas, socket) {
 
   /******* Mouse Events *******/
   //fixes a problem where double clicking causes text to get selected on the canvas
-  this.canvas.addEventListener('selectstart', function(e) { return preventDefaultFunction(e); }, false);
+  this.canvas.addEventListener('selectstart', function(e) {e.preventDefault();});
 
   //drawing pixels on mousedown
-  this.canvas.addEventListener('mousedown', function(e) { mouseDownEvent(e, state); });
+  this.canvas.addEventListener('mousedown', function(e) { mouseDownEvent(e, state);});
 
   //dragging functionality for drawing
-  this.canvas.addEventListener('mousemove', function(e) { mouseMoveEvent(e, state); });
+  this.canvas.addEventListener('mousemove', function(e) { mouseMoveEvent(e, state);});
 
   //regardless of where on the window a mouseup disables dragging
-  window.addEventListener('mouseup', function(e) { mouseUpEvent(e, state); });
+  window.addEventListener('mouseup', function(e) { mouseUpEvent(e, state);});
 
   //when mouse leaves canvas, highlight should dissapear
-  this.canvas.addEventListener('mouseleave', function(e) { mouseLeaveEvent(e, state); });
+  this.canvas.addEventListener('mouseleave', function(e) { mouseLeaveEvent(e, state);});
 
   /****** Touch Events ******/
-  this.canvas.addEventListener('touchstart', function(e) { touchDownEvent(e, state);});
+  this.canvas.addEventListener('touchstart', function(e) { touchHandler(e, state);});
 
-  this.canvas.addEventListener('touchend', function(e) { touchUpEvent(e, state);});
+  this.canvas.addEventListener('touchend', function(e) { touchHandler(e, state);});
 
-  this.canvas.addEventListener('touchmove', function(e) { touchMoveEvent(e, state);});
+  this.canvas.addEventListener('touchmove', function(e) { touchHandler(e, state);});
 
   /******* Other Events *****/
   window.addEventListener('resize', function(e) { resizeGrid(e, state);});
@@ -80,8 +83,7 @@ CanvasState.prototype.getMouse = function(e) {
   var mx = e.pageX - offset.x;
   var my = e.pageY - offset.y;
 
-  // We return a simple javascript object (a hash) with x and y defined
-  return {x: mx, y: my};
+  return {type: 'mouse', x: mx, y: my};
 };
 
 CanvasState.prototype.getTouch = function(e) {
@@ -93,7 +95,7 @@ CanvasState.prototype.getTouch = function(e) {
   var ty = e.changedTouches[0].pageY - offset.y;
 
   // We return a simple javascript object (a hash) with x and y defined
-  return {x: tx, y: ty};
+  return {type: 'touch', x: tx, y: ty};
 };
 
 CanvasState.prototype.getOffset = function(element) {

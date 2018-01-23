@@ -6,18 +6,34 @@ import {resizeCanvasElement} from './windowFunctions.js';
 
 var pxl = {};
 
-//Set up socket client connection
-pxl.socket = io();
-pxl.socket.on('connect', function() {
-  pxl.socket.emit('identifier', {type: 'web-client'});
+  //Set up socket client connection
+  pxl.socket = io();
+  pxl.socket.on('connect', function() {
+    pxl.socket.emit('identifier', {type: 'web-client'});
+  });
+
+  pxl.touches = {touchList: [], multiTouch: false}; //by passing an object, make a global reference
+  pxl.grid = new CanvasState(document.getElementById('editor'), pxl.socket, pxl.touches);
+  pxl.view = new View(document.getElementById('view'), pxl.grid, pxl.touches);
+  
+/********** SOCKET HANDLING ******/
+
+pxl.socket.on('boardConnect', function(data) {
+  pxl.grid.pWidth = data.dimmensions.width;
+  pxl.grid.pHeight = data.dimmensions.height;
+
+  var pixelSize = resizeCanvasElement(null, pxl.grid);
+  setUpGrid(pxl.grid, data.dimmensions, pixelSize, data.boardState);
 });
 
-//initialize a new Canvas object to draw on
-pxl.grid = new CanvasState(document.getElementById('editor'), pxl.socket);
-//while there is no grid should have some sort of default display indicating no canvas active
+pxl.socket.on('boardUpdate', function(data) {
+  updateGrid(pxl.grid, data.boardState);
+});
 
-pxl.view = new View(document.getElementById('view'), pxl.grid);
-
+pxl.socket.on('boardDisconnect', function() {
+  clearGrid(pxl.grid);
+  //should have some sort of display for the user
+});
 
 /****** HELPER FUNCTIONS *****/
 function setUpGrid(grid, dimmensions, pixelSize, colors) {
@@ -46,22 +62,3 @@ function clearGrid(grid) {
   grid.render = true;
   grid.draw();
 }
-
-/********** SOCKET HANDLING ******/
-
-pxl.socket.on('boardConnect', function(data) {
-  pxl.grid.pWidth = data.dimmensions.width;
-  pxl.grid.pHeight = data.dimmensions.height;
-
-  var pixelSize = resizeCanvasElement(null, pxl.grid);
-  setUpGrid(pxl.grid, data.dimmensions, pixelSize, data.boardState);
-});
-
-pxl.socket.on('boardUpdate', function(data) {
-  updateGrid(pxl.grid, data.boardState);
-});
-
-pxl.socket.on('boardDisconnect', function() {
-  clearGrid(pxl.grid);
-  //should have some sort of display for the user
-});

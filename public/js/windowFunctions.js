@@ -1,3 +1,4 @@
+//resize the canvas element based on the current dimmensions of the window
 const resizeCanvasElement = function(e, grid) {
   //1) get the dimmensions of the window and subtract desired padding
   var winWidth = window.innerWidth - (window.innerWidth * .1);
@@ -18,6 +19,7 @@ const resizeCanvasElement = function(e, grid) {
   return pixelSize;
 };
 
+//set the new size for all the pixels, so grid drawn on canvas element is the right size
 const resizeGrid = function(e, grid) {
     var pixelSize = resizeCanvasElement(e, grid);
     //have to somehow reset the value of a pixel
