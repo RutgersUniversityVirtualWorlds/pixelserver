@@ -40,16 +40,19 @@ const touchMoveEvent = function(e, state) {
 };
 
 const touchUpEvent = function(e, state) {
+  //remove released finger from touchList
+  for(var i = 0; i < state.touches.touchList.length; i++) {
+    if(state.touches.touchList[i].identifier === e.changedTouches[0].identifier) {
+      state.touches.touchList.splice(i, 1);
+    }
+  }
+
   //if only 1 touch ever occurred and it was on the canvas element
   if(state.touches.multiTouch === false && state.id === 'editor') {
-    var touch = state.getTouch(e);
-    colorPixel(touch, state);
-
+    colorPixel(state.getTouch(e), state);
     state.dragging = false;
-    state.touches.touchList.pop();
   }
   else if(state.touches.multiTouch === true) {
-    state.touches.touchList.pop();
     //if had removed the last finger
     if(state.touches.touchList.length === 0) {
       state.touches.multiTouch = false;
