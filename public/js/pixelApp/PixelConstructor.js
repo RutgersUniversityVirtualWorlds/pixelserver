@@ -1,17 +1,17 @@
 //basic pixel constructor
-const Pixel = function(x,y, w, h, fill) {
-  this.x = x || 0;
-  this.y = y || 0;
-  this.w = w || 20;
-  this.h = h || 20;
-  this.fill = fill || [255,255,255];
+const Pixel = function(x=0,y=0, w=20, h=20, fill=[255,255,255]) {
+  this.x = x;
+  this.y = y;
+  this.w = w;
+  this.h = h;
+  this.fill = fill;
 };
 
-Pixel.prototype.updatePixelSize = function(x, y, w, h) {
-  this.x = x || this.x;
-  this.y = y || this.y;
-  this.w = w || this.w;
-  this.h = h || this.h;
+Pixel.prototype.updatePixelSize = function(x=this.x, y=this.y, w=this.w, h=this.h) {
+  this.x = x;
+  this.y = y;
+  this.w = w;
+  this.h = h;
 }
 
 //draw pixel to ctx

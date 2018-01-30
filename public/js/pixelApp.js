@@ -1,12 +1,15 @@
 import SocketState from './pixelApp/SocketStateConstructor.js';
+import TouchHandler from './pixelApp/TouchHandlerClass.js';
+import MouseHandler from './pixelApp/MouseHandlerClass.js';
 import CanvasState from './pixelApp/CanvasStateConstructor.js';
 import ViewState from './pixelApp/ViewStateConstructor.js';
 
 let pxl = {};
 
 pxl.comm = new SocketState();
-pxl.touches = {touchList: [], multiTouch: false};
-pxl.grid = new CanvasState(document.getElementById('editor'), pxl.comm, pxl.touches);
+pxl.touches = new TouchHandler("touch", 0, 0);
+pxl.mouse = new MouseHandler("mouse", 0, 0);
+pxl.grid = new CanvasState(document.getElementById('editor'), pxl.comm, pxl.touches, pxl.mouse);
 pxl.view = new ViewState(document.getElementById('view'), pxl.grid, pxl.touches);
   
 

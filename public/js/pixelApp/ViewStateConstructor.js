@@ -1,5 +1,3 @@
-import {touchHandler} from './touchEvents.js';
-
 const ViewState = function(canvasWrapper, canvas, touches) {
   /******* setup **********/
   let state = this;
@@ -11,8 +9,8 @@ const ViewState = function(canvasWrapper, canvas, touches) {
   /****** Events *****/
   /******* Touch Events *******/
   //Here need to handle touch events for pinch/zoom the canvas and two-finger drag
-  this.view.addEventListener('touchstart', function(e) {touchHandler(e, state);});
-  this.view.addEventListener('touchend', function(e) {touchHandler(e, state);});
+  this.view.addEventListener('touchstart', function(e) {state.touches.Handler(e, state);});
+  this.view.addEventListener('touchend', function(e) {state.touches.Handler(e, state);});
 };
 
 export default ViewState;

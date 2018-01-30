@@ -1,5 +1,3 @@
-import {mouseDownEvent, mouseMoveEvent, mouseUpEvent, mouseLeaveEvent} from './mouseEvents.js';
-import {touchHandler} from './touchEvents.js';
 import Pixel from './PixelConstructor.js';
 
 /* This code is based off of the following
@@ -7,13 +5,14 @@ tutorial: https://github.com/simonsarris/Canvas-tutorials/blob/master/shapes.js
 by Simon Sarris ( www.simonsarris.com, sarris@acm.org)
 Thanks for helping make this project possible. - Gibran */
 
-const CanvasState = function(canvas, socket, touches) {
+const CanvasState = function(canvas, socket, touches, mouse) {
   /******* setup **********/
   let state = this;
   this.canvas = canvas;
   this.id = this.canvas.id;
   this.socket = socket;
   this.touches = touches;
+  this.mouse = mouse;
 
   this.ctx = canvas.getContext('2d');
   this.activeColor = [123, 100, 255];
@@ -28,20 +27,20 @@ const CanvasState = function(canvas, socket, touches) {
   //fixes a problem where double clicking causes text to get selected on the canvas
   this.canvas.addEventListener('selectstart', function(e) {e.preventDefault();});
 
-  this.canvas.addEventListener('mousedown', function(e) { mouseDownEvent(e, state);});
+  this.canvas.addEventListener('mousedown', function(e) { state.mouse.DownEvent(e, state);});
 
-  this.canvas.addEventListener('mousemove', function(e) { mouseMoveEvent(e, state);});
+  this.canvas.addEventListener('mousemove', function(e) { state.mouse.MoveEvent(e, state);});
 
   //regardless of where on the window a mouseup disables dragging
-  window.addEventListener('mouseup', function(e) { mouseUpEvent(e, state);});
+  window.addEventListener('mouseup', function(e) { state.mouse.UpEvent(e, state);});
 
   //when mouse leaves canvas, highlight should disappear
-  this.canvas.addEventListener('mouseleave', function(e) { mouseLeaveEvent(e, state);});
+  this.canvas.addEventListener('mouseleave', function(e) { state.mouse.LeaveEvent(e, state);});
 
   /****** Touch Events ******/
-  this.canvas.addEventListener('touchstart', function(e) { touchHandler(e, state);});
-  this.canvas.addEventListener('touchend', function(e) { touchHandler(e, state);});
-  this.canvas.addEventListener('touchmove', function(e) { touchHandler(e, state);});
+  this.canvas.addEventListener('touchstart', function(e) { state.touches.Handler(e, state);});
+  this.canvas.addEventListener('touchend', function(e) { state.touches.Handler(e, state);});
+  this.canvas.addEventListener('touchmove', function(e) { state.touches.Handler(e, state);});
 
   /******* Other Events *****/
   window.addEventListener('resize', function(e) { state.resizeGrid(e);});
@@ -176,17 +175,17 @@ CanvasState.prototype.getOffset = function(element) {
 };
 
 // Create an object with x and y defined, set to the mouse position relative to the state's canvas
-CanvasState.prototype.getMouse = function(e) {
+CanvasState.prototype.getMouseData = function(e) {
   let element = this.canvas;
   let offset = this.getOffset(element);
 
   let mx = e.pageX - offset.x;
   let my = e.pageY - offset.y;
 
-  return {type: 'mouse', x: mx, y: my};
+  return {x: mx, y: my};
 };
 
-CanvasState.prototype.getTouch = function(e) {
+CanvasState.prototype.getTouchData = function(e) {
   let element = this.canvas;
   let offset = this.getOffset(element);
 
@@ -195,7 +194,7 @@ CanvasState.prototype.getTouch = function(e) {
   let ty = e.changedTouches[0].pageY - offset.y;
 
   // We return a simple javascript object (a hash) with x and y defined
-  return {type: 'touch', x: tx, y: ty};
+  return {x: tx, y: ty};
 };
 
 
