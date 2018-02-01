@@ -17,6 +17,7 @@ body {
       vertical-align: middle;
     }
     h1 {
+      margin-left: .25em;
       font-size: 2em;
       display: inline-block;
       vertical-align: middle;
@@ -49,9 +50,41 @@ body {
   }
 
   .actionsWrapper {
+    display: flex;
     width: 100vw;
     height: 8em;
     background-color: #F2F2F2;
     border-top: solid 1px #B3B3B3;
   }
 
+    #colorPalette {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      width: 18em;
+      height: (18/7*2) + em;
+      margin: auto;
+    }
+      
+      .active {
+        border: solid 1px #ffffff;
+      }
+
+      .top-left { border-radius: .25em 0 0 0; }
+      .top-right { border-radius: 0 .25em 0 0; }
+      .bottom-left { border-radius: 0 0 0 .25em; }
+      .bottom-right { border-radius: 0 0 .25em 0; }
+
+      .color-0 { background-color: #8CC63F; }
+      .color-1 { background-color: #009245; }
+      .color-2 { background-color: #0071BC; }
+      .color-3 { background-color: #662D91; }
+      .color-4 { background-color: #D4145A; }
+      .color-5 { background-color: #202025; }
+      .color-6 { background-color: #FFFFFF; }
+      .color-7 { background-color: #D9E021; }
+      .color-8 { background-color: #22B573; }
+      .color-9 { background-color: #29ABE2; }
+      .color-10 { background-color: #93278F; }
+      .color-11 { background-color: #FF3333; }
+      .color-12 { background-color: #999999; }
+      .select-color { background-color: #FFFFFF; }

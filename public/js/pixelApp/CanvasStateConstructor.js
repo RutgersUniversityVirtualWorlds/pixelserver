@@ -15,7 +15,7 @@ const CanvasState = function(canvas, socket, touches, mouse) {
   this.mouse = mouse;
 
   this.ctx = canvas.getContext('2d');
-  this.activeColor = [123, 100, 255];
+  this.activeColor = [0, 0, 0];
 
   /***** State Variables ******/
   this.pixels = [];

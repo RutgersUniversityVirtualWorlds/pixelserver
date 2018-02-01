@@ -14,6 +14,10 @@ Pixel.prototype.updatePixelSize = function(x=this.x, y=this.y, w=this.w, h=this.
   this.h = h;
 }
 
+Pixel.prototype.setFill = function(fill) {
+  this.fill = fill;
+}
+
 //draw pixel to ctx
 Pixel.prototype.draw = function(ctx) {
   ctx.fillStyle = 'rgb(' + this.fill[0] + ',' + this.fill[1] + ',' + this.fill[2] + ')';

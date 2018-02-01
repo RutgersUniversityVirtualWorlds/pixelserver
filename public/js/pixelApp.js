@@ -3,6 +3,7 @@ import TouchHandler from './pixelApp/TouchHandlerClass.js';
 import MouseHandler from './pixelApp/MouseHandlerClass.js';
 import CanvasState from './pixelApp/CanvasStateConstructor.js';
 import ViewState from './pixelApp/ViewStateConstructor.js';
+import ColorPalette from './pixelApp/ColorPaletteConstructor.js';
 
 let pxl = {};
 
@@ -11,6 +12,7 @@ pxl.touches = new TouchHandler("touch", 0, 0);
 pxl.mouse = new MouseHandler("mouse", 0, 0);
 pxl.grid = new CanvasState(document.getElementById('editor'), pxl.comm, pxl.touches, pxl.mouse);
 pxl.view = new ViewState(document.getElementById('view'), pxl.grid, pxl.touches);
+pxl.palette = new ColorPalette(document.getElementById('colorPalette'), pxl.grid);
   
 
 pxl.comm.socket.on('boardConnect', function(data) {
