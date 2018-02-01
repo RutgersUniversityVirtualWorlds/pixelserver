@@ -11,10 +11,10 @@ class Pointer {
         let selection = state.pixels[i];
         state.render = true;
 
-        selection.fill = state.activeColor;
+        //need to pass primitive values, otherwise make a reference to state object fill color
+        selection.setFill([state.activeColor[0], state.activeColor[1], state.activeColor[2]]);
         state.draw();
         state.socket.sendSinglePixel(selection, i);
-
         break;
       }
     }
@@ -32,7 +32,7 @@ class Pointer {
           selection.drawHighlight(state.ctx);
         }
         else if(state.dragging && selection.fill !== state.activeColor){
-          selection.fill = state.activeColor;
+          selection.setFill([state.activeColor[0], state.activeColor[1], state.activeColor[2]]);
           state.draw();
           state.socket.sendSinglePixel(selection, i);
         }
