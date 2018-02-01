@@ -174,28 +174,4 @@ CanvasState.prototype.getOffset = function(element) {
   return {x: offsetX, y: offsetY};
 };
 
-// Create an object with x and y defined, set to the mouse position relative to the state's canvas
-CanvasState.prototype.getMouseData = function(e) {
-  let element = this.canvas;
-  let offset = this.getOffset(element);
-
-  let mx = e.pageX - offset.x;
-  let my = e.pageY - offset.y;
-
-  return {x: mx, y: my};
-};
-
-CanvasState.prototype.getTouchData = function(e) {
-  let element = this.canvas;
-  let offset = this.getOffset(element);
-
-  //https://developer.mozilla.org/en-US/docs/Web/API/Touch/pageX
-  let tx = e.changedTouches[0].pageX - offset.x;
-  let ty = e.changedTouches[0].pageY - offset.y;
-
-  // We return a simple javascript object (a hash) with x and y defined
-  return {x: tx, y: ty};
-};
-
-
 export default CanvasState;

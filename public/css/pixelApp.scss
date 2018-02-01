@@ -6,11 +6,9 @@ body {
   position: absolute;
 }
 
-  header {
+  #appTitle {
     margin-top: 1.125em;
     font-family: 'Oswald', sans-serif;
-    color: #FFFFFF;
-    background-color: #D4145A;
     padding: .5em 1.5em;
     img {
       display: inline-block;
@@ -23,6 +21,15 @@ body {
       vertical-align: middle;
     }
   }
+
+.whiteText {
+  color: #FFFFFF;
+}
+
+.blackTextAndBorder {
+  color: #202025; 
+  border: solid 1px #202025;
+}
 
 .mainContent {
   height: 100vh;

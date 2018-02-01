@@ -8,20 +8,28 @@ class TouchHandler extends Pointer {
     this.multiTouch = false;
   }
 
-  Handler(e, state) {
-    e.preventDefault();
+  setTouchPos(e, state) {
+    let offset = state.getOffset(state.canvas);
 
+    //https://developer.mozilla.org/en-US/docs/Web/API/Touch/pageX
+    let tx = e.changedTouches[0].pageX - offset.x;
+    let ty = e.changedTouches[0].pageY - offset.y;
+
+    this.setX(tx);
+    this.setY(ty);
+  }
+
+  Handler(e, state) {
     //add just ONE event trigger when canvas or viewWrapper is touched
     //otherwise results in duplicate calls due to overlapping of elements
     if((state.id === 'editor' && e.target.id === state.id) || 
     (state.id === 'view' && e.target.id === state.id)) {
       if(e.type === 'touchstart') {
-          //push the last touch into the list
-          this.touchList.push(e.touches[this.touchList.length]);
+        //push the last touch into the list
+        this.touchList.push(e.touches[this.touchList.length]); 
+        if(this.touchList.length > 1) this.multiTouch = true;
 
-          if(this.touchList.length > 1) this.multiTouch = true;
-
-          this.DownEvent(e, state);
+        this.DownEvent(e, state);
       }
       else if(e.type == 'touchmove') {
         this.MoveEvent(e, state);
@@ -33,6 +41,7 @@ class TouchHandler extends Pointer {
   }
 
   DownEvent(e, state) {
+    if(state.id === 'editor') e.preventDefault();
     //only 1 touch in entirety of contact and on canvas element
     if(this.multiTouch === false && state.id === 'editor') {
       state.dragging = true;
@@ -43,13 +52,13 @@ class TouchHandler extends Pointer {
   }
 
   MoveEvent(e, state) {
-    let touch = state.getTouchData(e);
-    this.x = touch.x;
-    this.y = touch.y;
+    if(state.id === 'editor') e.preventDefault();
+    this.setTouchPos(e, state);
     this.handleMoving(state);
   }
 
   UpEvent(e, state) {
+    if(state.id === 'editor') e.preventDefault();
     //remove released finger from touchList
     for(let i = 0; i < this.touchList.length; i++) {
       if(this.touchList[i].identifier === e.changedTouches[0].identifier) {
@@ -59,6 +68,7 @@ class TouchHandler extends Pointer {
 
     //if only 1 touch ever occurred and it was on the canvas element
     if(this.multiTouch === false && state.id === 'editor') {
+      this.setTouchPos(e, state);
       this.colorPixel(state);
       state.dragging = false;
     }

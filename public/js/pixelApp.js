@@ -12,7 +12,7 @@ pxl.touches = new TouchHandler("touch", 0, 0);
 pxl.mouse = new MouseHandler("mouse", 0, 0);
 pxl.grid = new CanvasState(document.getElementById('editor'), pxl.comm, pxl.touches, pxl.mouse);
 pxl.view = new ViewState(document.getElementById('view'), pxl.grid, pxl.touches);
-pxl.palette = new ColorPalette(document.getElementById('colorPalette'), pxl.grid);
+pxl.palette = new ColorPalette(document.getElementById('colorPalette'), pxl.grid, document.getElementById('appTitle'));
   
 
 pxl.comm.socket.on('boardConnect', function(data) {

@@ -1,14 +1,22 @@
 import Pointer from './PointerClass.js';
 
 class MouseHandler extends Pointer {
+  setMousePos(e, state) {
+    let offset = state.getOffset(state.canvas);
+
+    let mx = e.pageX - offset.x;
+    let my = e.pageY - offset.y;
+  
+    this.setX(mx);
+    this.setY(my);
+  }
+
   DownEvent(e, state) {
     state.dragging = true;
   }
 
   MoveEvent(e, state) {
-    let mouse = state.getMouseData(e);
-    this.x = mouse.x;
-    this.y = mouse.y;
+    this.setMousePos(e, state);
 
     this.handleMoving(state);
   }
@@ -17,10 +25,7 @@ class MouseHandler extends Pointer {
   UpEvent(e, state) {
     //when mouse clicks up on our canvas grid:
     //determine which pixel it had touched.
-    let mouse = state.getMouseData(e);
-    this.x = mouse.x;
-    this.y = mouse.y;
-
+    this.setMousePos(e, state);
     this.colorPixel(state);
 
     state.dragging = false;

@@ -4,17 +4,27 @@ class Pointer {
     this.x = x;
     this.y = y; 
   }
+  
+  setX(x) {
+    this.x = x;
+  }
+  
+  setY(y) {
+    this.y = y;
+  }
 
   colorPixel(state) {
     for(let i = 0; i < state.pixels.length; i++) {
-      if(state.pixels[i].contains(this.x, this.y) && state.pixels[i].fill !== state.activeColor) {
+      if(state.pixels[i].contains(this.x, this.y)) {
         let selection = state.pixels[i];
-        state.render = true;
 
-        //need to pass primitive values, otherwise make a reference to state object fill color
-        selection.setFill([state.activeColor[0], state.activeColor[1], state.activeColor[2]]);
-        state.draw();
-        state.socket.sendSinglePixel(selection, i);
+        if(!selection.fillEquals(state.activeColor)) {
+          //need to pass primitive values, otherwise make a reference to state object fill color
+          selection.setFill(state.activeColor);
+          state.render = true;
+          state.draw();
+          state.socket.sendSinglePixel(selection, i);
+        }
         break;
       }
     }
@@ -23,18 +33,22 @@ class Pointer {
   handleMoving(state) {
     for(let i = 0; i < state.pixels.length; i++) {
       if(state.pixels[i].contains(this.x, this.y)) {
-        state.render = true;
         let selection = state.pixels[i];
 
         if(!state.dragging && this.type === 'mouse') { //would only happen when pointer is a mouse
+          //TODO: Don't highlight if pixel already currently highlighted
+          state.render = true;
           state.draw();
           //add highlight on top of the current pixel
           selection.drawHighlight(state.ctx);
         }
-        else if(state.dragging && selection.fill !== state.activeColor){
-          selection.setFill([state.activeColor[0], state.activeColor[1], state.activeColor[2]]);
-          state.draw();
-          state.socket.sendSinglePixel(selection, i);
+        else if(state.dragging) { 
+          if(!selection.fillEquals(state.activeColor)) {
+            selection.setFill(state.activeColor);
+            state.render = true;
+            state.draw();
+            state.socket.sendSinglePixel(selection, i);
+          }
         }
         break;
       }

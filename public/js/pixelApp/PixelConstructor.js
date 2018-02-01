@@ -14,8 +14,17 @@ Pixel.prototype.updatePixelSize = function(x=this.x, y=this.y, w=this.w, h=this.
   this.h = h;
 }
 
-Pixel.prototype.setFill = function(fill) {
-  this.fill = fill;
+Pixel.prototype.setFill = function(newFill) {
+  for(let j = 0; j < this.fill.length; j++) {
+    this.fill[j] = newFill[j];
+  }
+}
+
+Pixel.prototype.fillEquals = function(otherFill) {
+  for(let j = 0; j < this.fill.length; j++) {
+    if(this.fill[j] !== otherFill[j]) return false;
+  }
+  return true;
 }
 
 //draw pixel to ctx
@@ -33,12 +42,12 @@ Pixel.prototype.drawHighlight = function(ctx) {
   ctx.fillRect(this.x + 1, this.y + 1, this.w - 1, this.h - 1);
 };
 
-//determine if mouse is currently within the bounds of the current pixel
-Pixel.prototype.contains = function(mx,my) {
-  if(mx >= this.x &&
-    my >= this.y &&
-    mx <= (this.x + this.w) &&
-    my <= (this.y + this.h)) {
+//determine if pointer is currently within the bounds of the current pixel
+Pixel.prototype.contains = function(px,py) {
+  if(px >= this.x &&
+    py >= this.y &&
+    px <= (this.x + this.w) &&
+    py <= (this.y + this.h)) {
       return true;
   }
   else return false;
