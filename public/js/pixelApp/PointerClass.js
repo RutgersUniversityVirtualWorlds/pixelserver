@@ -5,14 +5,6 @@ class Pointer {
     this.y = y; 
   }
   
-  setX(x) {
-    this.x = x;
-  }
-  
-  setY(y) {
-    this.y = y;
-  }
-
   colorPixel(state) {
     for(let i = 0; i < state.pixels.length; i++) {
       if(state.pixels[i].contains(this.x, this.y)) {

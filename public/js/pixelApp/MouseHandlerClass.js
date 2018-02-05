@@ -7,8 +7,8 @@ class MouseHandler extends Pointer {
     let mx = e.pageX - offset.x;
     let my = e.pageY - offset.y;
   
-    this.setX(mx);
-    this.setY(my);
+    this.x = mx;
+    this.y = my;
   }
 
   DownEvent(e, state) {
@@ -17,7 +17,6 @@ class MouseHandler extends Pointer {
 
   MoveEvent(e, state) {
     this.setMousePos(e, state);
-
     this.handleMoving(state);
   }
 

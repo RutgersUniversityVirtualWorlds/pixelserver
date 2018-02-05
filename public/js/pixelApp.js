@@ -8,7 +8,7 @@ import ColorPalette from './pixelApp/ColorPaletteConstructor.js';
 let pxl = {};
 
 pxl.comm = new SocketState();
-pxl.touches = new TouchHandler("touch", 0, 0);
+pxl.touches = new TouchHandler();
 pxl.mouse = new MouseHandler("mouse", 0, 0);
 pxl.grid = new CanvasState(document.getElementById('editor'), pxl.comm, pxl.touches, pxl.mouse);
 pxl.view = new ViewState(document.getElementById('view'), pxl.grid, pxl.touches);

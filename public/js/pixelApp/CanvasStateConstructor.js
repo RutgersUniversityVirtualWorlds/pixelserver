@@ -141,7 +141,7 @@ CanvasState.prototype.resizeGrid = function(e, wrapper) {
   //reset the value of a pixel
   for(let i = 0; i < this.pHeight; i++) {
     for(let j = 0; j < this.pWidth; j++) {
-      canvas.pixels[i*this.pWidth+j].updatePixelSize(j*pixelSize, i*pixelSize, pixelSize, pixelSize);
+      this.pixels[i*this.pWidth+j].updatePixelSize(j*pixelSize, i*pixelSize, pixelSize, pixelSize);
     }
   }
   this.render = true;

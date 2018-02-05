@@ -11,6 +11,7 @@ const ViewState = function(canvasWrapper, canvas, touches) {
   //Here need to handle touch events for pinch/zoom the canvas and two-finger drag
   this.view.addEventListener('touchstart', function(e) {state.touches.Handler(e, state);});
   this.view.addEventListener('touchend', function(e) {state.touches.Handler(e, state);});
+  this.view.addEventListener('touchmove', function(e) {state.touches.Handler(e, state);});
 
   /******* Windowing Events *****/
   window.addEventListener('resize', function(e) { state.child.resizeGrid(e, state);});
