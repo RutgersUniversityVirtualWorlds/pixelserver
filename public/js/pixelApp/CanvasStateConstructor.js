@@ -41,9 +41,6 @@ const CanvasState = function(canvas, socket, touches, mouse) {
   this.canvas.addEventListener('touchstart', function(e) { state.touches.Handler(e, state);});
   this.canvas.addEventListener('touchend', function(e) { state.touches.Handler(e, state);});
   this.canvas.addEventListener('touchmove', function(e) { state.touches.Handler(e, state);});
-
-  /******* Other Events *****/
-  window.addEventListener('resize', function(e) { state.resizeGrid(e);});
 };
 
 
@@ -100,42 +97,6 @@ CanvasState.prototype.deleteGrid = function() {
   this.draw();
 };
 
-/****** Window resizing methods *********/
-
-//resize the canvas element based on the current dimmensions of the window
-CanvasState.prototype.resizeCanvasElement = function() {
-  //1) get the dimmensions of the window and subtract desired padding
-  let winWidth = window.innerWidth - (window.innerWidth * .1);
-  let winHeight = window.innerHeight - (window.innerHeight * .1)
-
-  //2) divide dimmensions by dimmensions of physical pixels
-  let widthProportion = Math.floor(winWidth/this.pWidth);
-  let heightProportion = Math.floor(winHeight/this.pHeight);
-  
-  //3) floor the results and lowest one determines initial size of canvas
-  let pixelSize = Math.min(widthProportion, heightProportion);
-
-  //set new dimmensions of canvas element
-  this.canvas.width = this.pWidth * pixelSize + 1;
-  this.canvas.height = this.pHeight * pixelSize + 1;
-  this.ctx.clearRect( 0, 0, this.canvas.width, this.canvas.height);
-
-  return pixelSize;
-};
-
-//set the new size for all the pixels, so grid drawn on canvas element is the right size
-CanvasState.prototype.resizeGrid = function(e) {
-    let pixelSize = this.resizeCanvasElement();
-    //reset the value of a pixel
-    for(let i = 0; i < this.pHeight; i++) {
-      for(let j = 0; j < this.pWidth; j++) {
-        this.pixels[i*this.pWidth+j].updatePixelSize(j*pixelSize, i*pixelSize, pixelSize, pixelSize);
-      }
-    }
-    this.render = true;
-    this.draw();
-};
-
 /******** Input related methods *********/
 
 //handle offsetting of mouse/touch due to any css styling or html elements
@@ -172,6 +133,19 @@ CanvasState.prototype.getOffset = function(element) {
   offsetY += this.stylePaddingTop + this.styleBorderTop + this.htmlTop;
 
   return {x: offsetX, y: offsetY};
+};
+
+/****** Window related methods ******/
+CanvasState.prototype.resizeGrid = function(e, wrapper) {
+  let pixelSize = wrapper.resizeCanvasElement();
+  //reset the value of a pixel
+  for(let i = 0; i < this.pHeight; i++) {
+    for(let j = 0; j < this.pWidth; j++) {
+      canvas.pixels[i*this.pWidth+j].updatePixelSize(j*pixelSize, i*pixelSize, pixelSize, pixelSize);
+    }
+  }
+  this.render = true;
+  this.draw();
 };
 
 export default CanvasState;

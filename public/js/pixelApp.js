@@ -19,7 +19,7 @@ pxl.comm.socket.on('boardConnect', function(data) {
   pxl.grid.pWidth = data.dimmensions.width;
   pxl.grid.pHeight = data.dimmensions.height;
 
-  let pixelSize = pxl.grid.resizeCanvasElement();
+  let pixelSize = pxl.view.resizeCanvasElement();
   pxl.grid.setUpGrid(data.dimmensions, pixelSize, data.boardState);
 });
 
