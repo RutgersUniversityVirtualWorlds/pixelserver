@@ -55,6 +55,8 @@ class TouchHandler {
     let currTouch = this.touchList[currTouchIndex];
 
     if(state.id === 'editor') e.preventDefault();
+    //disable default page zooming, but doesn't disable scrolling
+    if(state.id === 'view' && this.multiTouch === true) e.preventDefault();
 
     //one touch occured and it was on canvas
     if(this.multiTouch === false && state.id === 'editor') {
@@ -91,8 +93,56 @@ class TouchHandler {
   }
 
   ZoomEvent(e, state) {
-    //handle zooming between first two touches
-    
+    //zooming is done by comparing the distance between two points in its previous iteration
+    //and its current iteration. If the points are closer, zooming out, otherwise zooming in. 
+      
+    let oldDeltaX = this.touchList[0].x - this.touchList[1].x;
+    let oldDeltaY = this.touchList[0].y - this.touchList[1].y;
+    let oldDistance = Math.sqrt(Math.pow(oldDeltaX, 2) + Math.pow(oldDeltaY, 2));
+
+    //update value for touch that changed position, but store old vals
+    let currTouchIndex = this.findTouchIndex(e.changedTouches[0].identifier);
+    let oldX = this.touchList[currTouchIndex].x;
+    let oldY = this.touchList[currTouchIndex].y;
+    this.touchList[currTouchIndex].setTouchPos(e);
+
+    let newDeltaX = this.touchList[0].x - this.touchList[1].x;
+    let newDeltaY = this.touchList[0].y - this.touchList[1].y;
+    let newDistance = Math.sqrt(Math.pow(newDeltaX, 2) + Math.pow(newDeltaY, 2));
+
+    let grid = null;
+    if(state.id === "editor") {
+      grid = state;
+    }
+    else if (state.id === "view") {
+      grid = state.child;
+    }
+
+    //TODO: maybe have the threshhold for change be dependent on dimmensions of grid
+    if(Math.abs(newDistance - oldDistance) > 5) {
+      let pixelSize = grid.pixels[0].w;
+      if(newDistance - oldDistance > 0) { //positive change, zooming in 
+        pixelSize += 1;
+        grid.canvas.width = grid.pWidth * pixelSize + 1;
+        grid.canvas.height = grid.pHeight * pixelSize + 1;
+        grid.ctx.clearRect( 0, 0, grid.canvas.width, grid.canvas.height);
+
+        grid.resizeGrid(null, pixelSize);
+      }
+      else if(newDistance - oldDistance < 0 && pixelSize > 4) { //negative change, zooming out
+        pixelSize -= 1;
+        grid.canvas.width = grid.pWidth * pixelSize + 1;
+        grid.canvas.height = grid.pHeight * pixelSize + 1;
+        grid.ctx.clearRect( 0, 0, grid.canvas.width, grid.canvas.height);
+
+        grid.resizeGrid(null, pixelSize);
+      }
+    }
+    else {
+      //restore old vals if change in distance isn't enough to trigger
+      this.touchList[currTouchIndex].x = oldX;
+      this.touchList[currTouchIndex].y = oldY;
+    }
   }
 
   PanEvent(e, state) {

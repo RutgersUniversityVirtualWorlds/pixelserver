@@ -10,6 +10,7 @@ const CanvasState = function(canvas, socket, touches, mouse) {
   let state = this;
   this.canvas = canvas;
   this.id = this.canvas.id;
+  this.container = null;
   this.socket = socket;
   this.touches = touches;
   this.mouse = mouse;
@@ -136,8 +137,11 @@ CanvasState.prototype.getOffset = function(element) {
 };
 
 /****** Window related methods ******/
-CanvasState.prototype.resizeGrid = function(e, wrapper) {
-  let pixelSize = wrapper.resizeCanvasElement();
+CanvasState.prototype.resizeGrid = function(wrapper, givenSize = 0) {
+  let pixelSize = givenSize;
+  if(givenSize === 0) {
+    pixelSize = wrapper.resizeCanvasElement();
+  }
   //reset the value of a pixel
   for(let i = 0; i < this.pHeight; i++) {
     for(let j = 0; j < this.pWidth; j++) {

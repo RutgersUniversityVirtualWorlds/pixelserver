@@ -14,7 +14,7 @@ const ViewState = function(canvasWrapper, canvas, touches) {
   this.view.addEventListener('touchmove', function(e) {state.touches.Handler(e, state);});
 
   /******* Windowing Events *****/
-  window.addEventListener('resize', function(e) { state.child.resizeGrid(e, state);});
+  window.addEventListener('resize', function(e) { state.child.resizeGrid(state);});
 };
 
 /****** Window resizing methods *********/
