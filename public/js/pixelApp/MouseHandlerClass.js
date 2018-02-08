@@ -4,11 +4,8 @@ class MouseHandler extends Pointer {
   setMousePos(e, state) {
     let offset = state.getOffset(state.canvas);
 
-    let mx = e.pageX - offset.x;
-    let my = e.pageY - offset.y;
-  
-    this.x = mx;
-    this.y = my;
+    this.x = e.pageX - offset.x;
+    this.y = e.pageY - offset.y;
   }
 
   DownEvent(e, state) {
