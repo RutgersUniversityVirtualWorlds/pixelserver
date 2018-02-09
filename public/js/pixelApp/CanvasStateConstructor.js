@@ -10,11 +10,9 @@ const CanvasState = function(canvas, socket, touches, mouse) {
   let state = this;
   this.canvas = canvas;
   this.id = this.canvas.id;
-  this.container = null;
   this.socket = socket;
   this.touches = touches;
   this.mouse = mouse;
-
   this.ctx = canvas.getContext('2d');
   this.activeColor = [0, 0, 0];
 

@@ -6,24 +6,20 @@ class Touch extends Pointer {
     this.object = object;
   }
 
-  setTouchPos(e, state = null) {
+  setTouchPos(e, index, state = null) {
     let offset = {
       x: 0,
       y: 0
     };
 
-    //handle element offset if canvas was element passed
-    //only use this to correctly handle offset for drawing within our grid
+    //handle element offset solely for drawing on the canvas actions
+    //state should be null when dealing with zooming/panning
     if(state !== null) {
       offset = state.getOffset(state.canvas);
     }
 
-    //https://developer.mozilla.org/en-US/docs/Web/API/Touch/pageX
-    let tx = e.changedTouches[0].pageX - offset.x;
-    let ty = e.changedTouches[0].pageY - offset.y;
-
-    this.x = tx;
-    this.y = ty;
+    this.x = e.changedTouches[index].pageX - offset.x;
+    this.y = e.changedTouches[index].pageY - offset.y;
   }
 };
 

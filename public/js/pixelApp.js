@@ -12,7 +12,6 @@ pxl.touches = new TouchHandler();
 pxl.mouse = new MouseHandler("mouse", 0, 0);
 pxl.grid = new CanvasState(document.getElementById('editor'), pxl.comm, pxl.touches, pxl.mouse);
 pxl.view = new ViewState(document.getElementById('view'), pxl.grid, pxl.touches);
-pxl.grid.container = pxl.view;
 pxl.palette = new ColorPalette(document.getElementById('colorPalette'), pxl.grid, document.getElementById('appTitle'));
 
 
