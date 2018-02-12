@@ -23,14 +23,14 @@ body {
     }
   }
 
-.whiteText {
-  color: #FFFFFF;
-}
+  .whiteText {
+    color: #FFFFFF;
+  }
 
-.blackTextAndBorder {
-  color: #202025; 
-  border: solid 1px #202025;
-}
+  .blackTextAndBorder {
+    color: #202025; 
+    border: solid 1px #202025;
+  }
 
 .mainContent {
   height: 100vh;
@@ -69,6 +69,9 @@ body {
     #colorPalette {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
+      grid-template-areas: 
+        "color0 color1 color2 color3 color4 color5 color6" 
+        "color7 color8 color9 color10 color11 color12 selectColor";
       width: 18em;
       height: (18/7*2) + em;
       margin: auto;
@@ -78,22 +81,103 @@ body {
         border: solid 1px #ffffff;
       }
 
-      .top-left { border-radius: .25em 0 0 0; }
-      .top-right { border-radius: 0 .25em 0 0; }
-      .bottom-left { border-radius: 0 0 0 .25em; }
-      .bottom-right { border-radius: 0 0 .25em 0; }
+      .color-0 { 
+        border-radius: .25em 0 0 0;
+        background-color: #8CC63F; 
+        grid-area: color0;
+      }
+      .color-1 { 
+        background-color: #009245;
+        grid-area: color1;
+      }
+      .color-2 { 
+        background-color: #0071BC;
+        grid-area: color2;
+      }
+      .color-3 { 
+        background-color: #662D91; 
+        grid-area: color3;
+      }
+      .color-4 { 
+        background-color: #D4145A; 
+        grid-area: color4;
+      }
+      .color-5 { 
+        background-color: #202025; 
+        grid-area: color5;
+      }
+      .color-6 { 
+        border-radius: 0 .25em 0 0;
+        background-color: #FFFFFF; 
+        grid-area: color6;
+      }
+      .color-7 { 
+        border-radius: 0 0 0 .25em;
+        background-color: #D9E021; 
+        grid-area: color7;
+      }
+      .color-8 { 
+        background-color: #22B573; 
+        grid-area: color8;
+      }
+      .color-9 { 
+        background-color: #29ABE2; 
+        grid-area: color9;
+      }
+      .color-10 { 
+        background-color: #93278F; 
+        grid-area: color10;
+      }
+      .color-11 { 
+        background-color: #FF3333; 
+        grid-area: color11;
+      }
+      .color-12 { 
+        background-color: #999999; 
+        grid-area: color12;
+      }
+      .select-color { 
+        border-radius: 0 0 .25em 0;
+        background-color: #FFFFFF; 
+        grid-area: selectColor;
+      }
 
-      .color-0 { background-color: #8CC63F; }
-      .color-1 { background-color: #009245; }
-      .color-2 { background-color: #0071BC; }
-      .color-3 { background-color: #662D91; }
-      .color-4 { background-color: #D4145A; }
-      .color-5 { background-color: #202025; }
-      .color-6 { background-color: #FFFFFF; }
-      .color-7 { background-color: #D9E021; }
-      .color-8 { background-color: #22B573; }
-      .color-9 { background-color: #29ABE2; }
-      .color-10 { background-color: #93278F; }
-      .color-11 { background-color: #FF3333; }
-      .color-12 { background-color: #999999; }
-      .select-color { background-color: #FFFFFF; }
+@media (min-width: 640px) {
+  .mainContent {
+    flex-direction: row;
+  }
+
+    #view {
+      width: auto;
+    }
+
+    .actionsWrapper {
+      height: 100vh;
+      width: 8em;
+      border-left: solid 1px #B3B3B3;
+      border-top: none;
+    }
+
+      #colorPalette {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-areas: 
+          "color0 color7"
+          "color1 color8"
+          "color2 color9"
+          "color3 color10"
+          "color4 color11"
+          "color5 color12"
+          "color6 selectColor";
+        height: 18em;
+        width: (18/7*2) + em;
+        margin: auto;
+      }
+     
+      .color-6 {
+        border-radius: 0 0 0 .25em;
+      }
+
+      .color-7 {
+        border-radius: 0 .25em 0 0;
+      }
+}
