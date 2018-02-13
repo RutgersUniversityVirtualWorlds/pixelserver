@@ -2,9 +2,42 @@ body {
   overflow: hidden;
 }
 
+#overlay {
+  display: none;
+  position: absolute;
+  z-index: 3;
+  height: 100vh;
+  width: 100vw;
+
+  /* background-color: rgba(0,0,0, 0.65); */
+  background: -moz-linear-gradient(top,  rgba(0,0,0,0) 0%, rgba(0,0,0,0.65) 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0.65))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* IE10+ */
+  background: linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* W3C */
+
+  #modalWrapper {
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+  #colorModal {
+    margin-top: 10vh;
+    max-width: 20em;
+    max-height: 20em;
+    background-color: #FFFFFF;
+    border-radius: .25em;
+  }
+
 .topLayer {
   position: absolute;
-  z-index: 1;
+  z-index: 2;
 }
 
   #appTitle {
@@ -138,8 +171,17 @@ body {
       }
       .select-color { 
         border-radius: 0 0 .25em 0;
-        background-color: #FFFFFF; 
         grid-area: selectColor;
+        background-color: #E8E8E8; 
+        position: relative;
+        img {
+          position: absolute;
+          top: .5em;
+          left: .5em;
+        }
+        &:hover {
+          background-color: #E0E0E0; 
+        }
       }
 
 @media (min-width: 640px) {
