@@ -1,3 +1,5 @@
+import ColorSelector from './ColorSelectorConstructor.js';
+
 const ColorPalette = function(paletteElement, canvas, titleElement) {
   /******* setup **********/
   let state = this;
@@ -5,6 +7,7 @@ const ColorPalette = function(paletteElement, canvas, titleElement) {
   this.title = titleElement;
   this.id = this.palette.id;
   this.canvas = canvas;
+  this.overlay = document.getElementById("overlay");
 
   this.colors = [];
   this.activeElement = null;
@@ -20,7 +23,11 @@ const ColorPalette = function(paletteElement, canvas, titleElement) {
     });
   }
 
+  this.selector = new ColorSelector(document.getElementById("colorSelector")); 
+
   this.editElement.addEventListener('mouseup', function(e) { state.editColorsEvent(); });
+  this.overlay.addEventListener('mouseup', function(e) { state.removeOverlay(state.overlay, e); });
+  document.addEventListener('keypress', function(e) { state.removeOverlay(state.overlay, e); });
 };
 
 ColorPalette.prototype.setInitialValues = function(palette) {
@@ -46,22 +53,14 @@ ColorPalette.prototype.setActiveColor = function(elem) {
   for(let i = 0; i < extraction.length; i++) {
     this.activeColor[i] = parseInt(extraction[i], 10);
   }
-
-  //want to also set bg color of title bar
-  let colorClass = null;
-  for(let i = 0; i < elem.classList.length; i++) {
-    if(elem.classList.item(i).match(/(color-)\d+/)) {
-      colorClass = elem.classList.item(i);
-    }
+ 
+  //also set title
+  this.title.style.backgroundColor = rgb;
+  this.title.className = "";
+  if(this.activeColor[0] > 221 && this.activeColor[1] > 221 && this.activeColor[2] > 221) {
+    this.title.classList.add('blackTextAndBorder');
   }
-  if(colorClass !== null) {
-    this.title.className = "";
-    if(this.activeColor[0] > 221 && this.activeColor[1] > 221 && this.activeColor[2] > 221) {
-      this.title.classList.add('blackTextAndBorder');
-    }
-    else this.title.classList.add('whiteText');
-    this.title.classList.add(colorClass);
-  }
+  else this.title.classList.add('whiteText');
 };
 
 ColorPalette.prototype.colorClickedEvent = function(selected, state) {
@@ -79,5 +78,14 @@ ColorPalette.prototype.editColorsEvent = function() {
   let overlay = document.getElementById("overlay");
   overlay.style.display = "inline";
   this.editing = true;
+};
+
+ColorPalette.prototype.removeOverlay = function(overlay, e = null) {
+  if(e !== null && e.key === "Escape") {
+    overlay.style.display = "none";
+  }
+  else if(e !== null && e.target.id === 'modalWrapper') {
+    overlay.style.display = "none";
+  }
 };
 export default ColorPalette;

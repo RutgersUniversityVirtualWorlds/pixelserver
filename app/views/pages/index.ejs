@@ -11,7 +11,7 @@
   <link rel="stylesheet" type="text/css" href="/pixelApp.bundle.css" media="screen" />
 
   <script src="https://use.fontawesome.com/39ddb2bf02.js"></script>
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet"> 
   <link href="https://fonts.googleapis.com/css?family=Oswald:700" rel="stylesheet">
 </head>
 
@@ -19,7 +19,34 @@
   <div id="overlay">
     <div id="modalWrapper">
       <div id="colorModal">
-        OH MY!
+        <section id="modalHeader">
+          <h2 id="modalTitle">Color Picker</h2> <div id="exitModal">X</div>
+        </section>
+        <section id="colorSelector">
+          <p> Select a color to replace: </p>
+          <section id="colorPaletteEdit">
+            <div class="color color-0 active"></div>  
+            <div class="color color-1"></div>  
+            <div class="color color-2"></div>  
+            <div class="color color-3"></div>  
+            <div class="color color-4"></div>  
+            <div class="color color-5"></div>  
+            <div class="color color-6"></div>  
+            <div class="color color-7"></div>  
+            <div class="color color-8"></div>  
+            <div class="color color-9"></div>  
+            <div class="color color-10"></div>  
+            <div class="color color-11"></div>  
+          </section>
+          <section id="editTools">
+            <section id="sliders">
+
+            </section>
+            <section id="output">
+              <div id="colorResult"></div>
+            </section>
+          </section>
+        </section>
       </div>
     </div>
   </div>
@@ -43,13 +70,13 @@
         <div class="color color-3"></div>  
         <div class="color color-4 active"></div>  
         <div class="color color-5"></div>  
+        <div class="eraser"></div>  
         <div class="color color-6"></div>  
         <div class="color color-7"></div>  
         <div class="color color-8"></div>  
         <div class="color color-9"></div>  
         <div class="color color-10"></div>  
         <div class="color color-11"></div>  
-        <div class="color color-12"></div>  
         <div class="select select-color">
           <img src="/img/plus_icon.png" width="24px" height="24px"/>
         </div>  

@@ -19,12 +19,12 @@ class MouseHandler extends Pointer {
 
 
   UpEvent(e, state) {
-    //when mouse clicks up on our canvas grid:
-    //determine which pixel it had touched.
-    this.setMousePos(e, state);
-    this.colorPixel(state);
+    if(e.target.id === "editor") {
+      this.setMousePos(e, state);
+      this.colorPixel(state);
 
-    state.dragging = false;
+      state.dragging = false;
+    }
   }
 
   LeaveEvent(e, state) {

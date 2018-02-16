@@ -8,14 +8,7 @@ body {
   z-index: 3;
   height: 100vh;
   width: 100vw;
-
-  /* background-color: rgba(0,0,0, 0.65); */
-  background: -moz-linear-gradient(top,  rgba(0,0,0,0) 0%, rgba(0,0,0,0.65) 100%); /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0.65))); /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* Opera 11.10+ */
-  background: -ms-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* IE10+ */
-  background: linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* W3C */
+  background-color: rgba(0,0,0, 0.65);
 
   #modalWrapper {
     position: absolute;
@@ -27,13 +20,59 @@ body {
   }
 }
 
-  #colorModal {
-    margin-top: 10vh;
-    max-width: 20em;
-    max-height: 20em;
-    background-color: #FFFFFF;
-    border-radius: .25em;
+#colorModal {
+  margin-top: 10vh;
+  padding: 2em;
+  width: 50vw;
+  height: 50vh;
+  background-color: #FFFFFF;
+}
+
+  #modalHeader {
+    border-bottom: 1px solid #17181A;
   }
+  
+    #modalTitle {
+      display: inline-block;
+    }
+
+    #exitModal {
+      display: inline-block;
+      font-weight: 700;
+      float: right;
+    }
+  
+  #colorSelector {
+    margin-top: .5em;
+  }
+
+    #colorPaletteEdit {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      grid-template-areas: 
+        "color0 color1 color2 color3 color4 color5" 
+        "color6 color7 color8 color9 color10 color11";
+      width: 15.5em;
+      height: (15.5/6*2) + em;
+      margin: auto;
+      background-color: #F2F2F2;
+      padding: .5em 1em;
+      
+      .color-5 {
+        border-radius: 0 .25em 0 0;
+      }
+      .color-6 {
+        border-radius: 0 0 0 .25em;
+      }
+      .color-11 {
+        border-radius: 0 0 .25em 0;
+      }
+    }
+
+    #colorResult {
+      width: 2em;
+      height: 2em;
+    }
 
 .topLayer {
   position: absolute;
@@ -103,8 +142,8 @@ body {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
       grid-template-areas: 
-        "color0 color1 color2 color3 color4 color5 color6" 
-        "color7 color8 color9 color10 color11 color12 selectColor";
+        "color0 color1 color2 color3 color4 color5 eraser" 
+        "color6 color7 color8 color9 color10 color11 selectColor";
       width: 18em;
       height: (18/7*2) + em;
       margin: auto;
@@ -139,35 +178,34 @@ body {
         background-color: #202025; 
         grid-area: color5;
       }
-      .color-6 { 
+      .eraser {
         border-radius: 0 .25em 0 0;
-        background-color: #FFFFFF; 
+        grid-area: eraser;
+      }
+      .color-6 { 
+        border-radius: 0 0 0 .25em;
+        background-color: #D9E021; 
         grid-area: color6;
       }
       .color-7 { 
-        border-radius: 0 0 0 .25em;
-        background-color: #D9E021; 
+        background-color: #22B573; 
         grid-area: color7;
       }
       .color-8 { 
-        background-color: #22B573; 
+        background-color: #29ABE2; 
         grid-area: color8;
       }
       .color-9 { 
-        background-color: #29ABE2; 
+        background-color: #93278F; 
         grid-area: color9;
       }
       .color-10 { 
-        background-color: #93278F; 
+        background-color: #FF3333; 
         grid-area: color10;
       }
       .color-11 { 
-        background-color: #FF3333; 
+        background-color: #FFFFFF; 
         grid-area: color11;
-      }
-      .color-12 { 
-        background-color: #999999; 
-        grid-area: color12;
       }
       .select-color { 
         border-radius: 0 0 .25em 0;
@@ -203,23 +241,23 @@ body {
       #colorPalette {
         grid-template-columns: repeat(2, 1fr);
         grid-template-areas: 
-          "color0 color7"
-          "color1 color8"
-          "color2 color9"
-          "color3 color10"
-          "color4 color11"
-          "color5 color12"
-          "color6 selectColor";
+          "color0 color6"
+          "color1 color7"
+          "color2 color8"
+          "color3 color9"
+          "color4 color10"
+          "color5 color11"
+          "eraser selectColor";
         height: 18em;
         width: (18/7*2) + em;
         margin: auto;
       }
      
-      .color-6 {
+      .eraser {
         border-radius: 0 0 0 .25em;
       }
 
-      .color-7 {
+      .color-6 {
         border-radius: 0 .25em 0 0;
       }
 }
