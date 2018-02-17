@@ -44,6 +44,9 @@ body {
   
   #colorSelector {
     margin-top: .5em;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
   }
 
     #colorPaletteEdit {
@@ -68,10 +71,96 @@ body {
         border-radius: 0 0 .25em 0;
       }
     }
+   
+    #editTools { 
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      margin-top: 2em;
+      #sliders {
+        .colorRange {
+          display: block;
+          width: 20em;
+          margin: 1em 2em;
 
-    #colorResult {
-      width: 2em;
-      height: 2em;
+          -webkit-appearance: none; /*clear default styles for chrome/safari */
+          background: transparent; /*otherwise white in chrome */
+
+          &::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 1.5em;
+            border-radius: 1em;
+          }
+          &::-moz-range-track {
+            width: 100%;
+            height: 1.5em;
+            border-radius: 1em;
+            background: transparent;
+
+          }
+
+          &::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            border: solid 2px #FFFFFF;
+            margin-top: .125em;
+            height: 1.25em;
+            width: 1.25em;
+            border-radius: 1em;
+          }
+          &::-moz-range-thumb {
+            border: solid 2px #FFFFFF;
+            height: 1.25em;
+            width: 1.25em;
+            border-radius: 1em;
+            background-color: transparent;
+          }
+
+          &:focus {
+            outline: none;
+          }
+        }
+        #redRange {
+          &::-webkit-slider-runnable-track {
+            background: linear-gradient(90deg, #000000, #FF0000);
+          }
+          &::-moz-range-track {
+            background: linear-gradient(90deg, #000000, #FF0000);
+          }
+        }
+        #greenRange {
+          &::-webkit-slider-runnable-track {
+            background: linear-gradient(90deg, #000000, #00FF00);
+          }
+          &::-moz-range-track {
+            background: linear-gradient(90deg, #000000, #00FF00);
+          }
+        }
+        #blueRange {
+          &::-webkit-slider-runnable-track {
+            background: linear-gradient(90deg, #000000, #0000FF);
+          }
+          &::-moz-range-track {
+            background: linear-gradient(90deg, #000000, #0000FF);
+          }
+        }
+      }
+      #output {
+        #colorResult {
+          display: block;
+          width: 8em;
+          height: 8em;
+        }
+        .colorLabel {
+          display: inline;
+          margin-right: .75em;
+        }
+        .colorInput {
+          display: inline-block;
+          margin-top: .5em;
+          width: 6em;
+          border: solid 1px #17181A;
+        }
+      }
     }
 
 .topLayer {

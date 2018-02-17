@@ -8,6 +8,8 @@ const ColorSelector = function(selectorWrapper) {
   this.activeColor = new Array(3);
   this.activeElement = null;
   this.displayDiv = document.getElementById("colorResult");
+  this.rgbInput = document.getElementById("rgbInput");
+  this.hexInput = document.getElementById("hexInput");
 
   this.colorPalette = document.getElementById("colorPaletteEdit");
   this.setInitialValues(this.colorPalette);
@@ -28,16 +30,12 @@ ColorSelector.prototype.setInitialValues = function(palette) {
       if(elem.classList.contains('active')) {
         this.activeElement = elem;
         let rgb = getComputedStyle(elem).getPropertyValue('background-color');
-        this.displayDiv.style.backgroundColor = rgb;
-
-        let extraction = rgb.match(/\d+/g);
-        for(let i = 0; i < extraction.length; i++) {
-          this.activeColor[i] = parseInt(extraction[i], 10);
-        }
+        this.syncElements(rgb);
       }
     }
   }
 };
+
 
 ColorSelector.prototype.colorClickedEvent = function(selected, state) {
   let elem = selected;
@@ -48,11 +46,24 @@ ColorSelector.prototype.colorClickedEvent = function(selected, state) {
   
   let rgb = getComputedStyle(elem).getPropertyValue('background-color');
   state.displayDiv.style.backgroundColor = rgb;
+  this.rgbInput.value = rgb;
 
   let extraction = rgb.match(/\d+/g);
   for(let i = 0; i < extraction.length; i++) {
     state.activeColor[i] = parseInt(extraction[i], 10);
   }
+  this.hexInput.value = "#" + this.activeColor[0].toString(16) + this.activeColor[1].toString(16) + this.activeColor[2].toString(16);
+};
+
+ColorSelector.prototype.syncElements = function(rgb) {
+  this.displayDiv.style.backgroundColor = rgb; 
+  this.rgbInput.value = rgb; 
+  let extraction = rgb.match(/\d+/g);
+  for(let i = 0; i < extraction.length; i++) {
+    this.activeColor[i] = parseInt(extraction[i], 10);
+  }
+  //TODO: for hex need to handle when values are below 16.
+  this.hexInput.value = "#" + this.activeColor[0].toString(16) + this.activeColor[1].toString(16) + this.activeColor[2].toString(16);
 };
 
 export default ColorSelector;
