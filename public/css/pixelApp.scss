@@ -2,9 +2,209 @@ body {
   overflow: hidden;
 }
 
+#overlay {
+  display: none;
+  position: absolute;
+  z-index: 3;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0,0,0, 0.65);
+
+  #modalWrapper {
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+#colorModal {
+  margin-top: 5vh;
+  padding: 2em;
+  width: 50vw;
+  min-width: 25em;
+  max-width: 35em;
+  min-height: 25em;
+  background-color: #FFFFFF;
+}
+
+  #modalHeader {
+    border-bottom: 1px solid #17181A;
+  }
+  
+    #modalTitle {
+      display: inline-block;
+    }
+
+    #exitModal {
+      cursor: pointer;
+      display: inline-block;
+      font-weight: 700;
+      float: right;
+      font-size: 18px;
+      &:hover {
+        color: #999999;
+      }
+    }
+  
+  #colorSelector {
+    margin-top: .5em;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+    #colorPaletteEdit {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      grid-template-areas: 
+        "color0 color1 color2 color3 color4 color5" 
+        "color6 color7 color8 color9 color10 color11";
+      width: 15.5em;
+      height: (15.5/6*2) + em;
+      margin: 1em auto 0em;
+      padding: .5em 1em;
+      background-color: #F2F2F2;
+      border-radius: .25em;
+      
+      & div {
+        cursor: pointer;
+        box-sizing: border-box;
+      }
+      
+      .color-5 {
+        border-radius: 0 .25em 0 0;
+      }
+      .color-6 {
+        border-radius: 0 0 0 .25em;
+      }
+      .color-11 {
+        border-radius: 0 0 .25em 0;
+      }
+    }
+   
+    #editTools { 
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      margin-top: 2em;
+      #sliders {
+        margin-right: 1.5em;
+        div {
+          display: block;
+          margin-top: 1em;
+        }
+        .rangeLabel {
+          text-align: center;
+          vertical-align: text-top;
+        }
+        .singleInput {
+          vertical-align: text-top;
+          border: solid 1px #17181A;
+          text-align: center;
+          width: 2em;
+        }
+        .colorRange {
+          display: inline;
+
+          -webkit-appearance: none; /*clear default styles for chrome/safari */
+          background: transparent; /*otherwise white in chrome */
+
+          &::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 1.5em;
+            border-radius: 1em;
+          }
+          &::-moz-range-track {
+            width: 100%;
+            height: 1.5em;
+            border-radius: 1em;
+            background: transparent;
+
+          }
+
+          &::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            border: solid 2px #FFFFFF;
+            margin-top: .125em;
+            height: 1.25em;
+            width: 1.25em;
+            border-radius: 1em;
+          }
+          &::-moz-range-thumb {
+            border: solid 2px #FFFFFF;
+            height: 1.25em;
+            width: 1.25em;
+            border-radius: 1em;
+            background-color: transparent;
+          }
+
+          &:focus {
+            outline: none;
+          }
+        }
+        .colorRange {
+          border-radius: 1em;
+        }
+      }
+      #output {
+        #colorResult {
+          border: solid 1px #17181A;
+          display: block;
+          width: 8em;
+          height: 8em;
+        }
+        .colorLabel {
+          display: inline;
+          margin-right: .75em;
+        }
+        .colorInput {
+          display: inline-block;
+          margin-top: .5em;
+          width: 6em;
+          border: solid 1px #17181A;
+        }
+      }
+    }
+
+  #editButtons {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    * {
+      cursor: pointer;
+      margin-top: 1.25em;
+      margin-right: 1em;
+      padding: .75em 1.5em;
+      border-radius: 1.5em;
+      font-size: 13px;
+    }
+  }
+
+  #cancelButton {
+    border: solid 2px #d1d8e0;
+    color: #c1c8d0;
+    font-weight: 700;
+    background: #FFFFFF;
+    &:hover {
+      border: solid 2px #c1c8d0;
+      color: #b1b8c0;
+    }
+  } 
+
+  #applyButton {
+    color: #FFFFFF;
+    background: #20bf6b;
+    &:hover {
+      background: #10af5b;
+    }
+  }
+
 .topLayer {
   position: absolute;
-  z-index: 1;
+  z-index: 2;
 }
 
   #appTitle {
@@ -70,11 +270,15 @@ body {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
       grid-template-areas: 
-        "color0 color1 color2 color3 color4 color5 color6" 
-        "color7 color8 color9 color10 color11 color12 selectColor";
+        "color0 color1 color2 color3 color4 color5 eraser" 
+        "color6 color7 color8 color9 color10 color11 selectColor";
       width: 18em;
       height: (18/7*2) + em;
       margin: auto;
+      & div {
+        cursor: pointer;
+        box-sizing: border-box;
+      }
     }
       
       .active {
@@ -106,40 +310,48 @@ body {
         background-color: #202025; 
         grid-area: color5;
       }
-      .color-6 { 
+      .eraser {
         border-radius: 0 .25em 0 0;
-        background-color: #FFFFFF; 
+        grid-area: eraser;
+      }
+      .color-6 { 
+        border-radius: 0 0 0 .25em;
+        background-color: #D9E021; 
         grid-area: color6;
       }
       .color-7 { 
-        border-radius: 0 0 0 .25em;
-        background-color: #D9E021; 
+        background-color: #22B573; 
         grid-area: color7;
       }
       .color-8 { 
-        background-color: #22B573; 
+        background-color: #29ABE2; 
         grid-area: color8;
       }
       .color-9 { 
-        background-color: #29ABE2; 
+        background-color: #93278F; 
         grid-area: color9;
       }
       .color-10 { 
-        background-color: #93278F; 
+        background-color: #FF3333; 
         grid-area: color10;
       }
       .color-11 { 
-        background-color: #FF3333; 
+        background-color: #FFFFFF; 
         grid-area: color11;
-      }
-      .color-12 { 
-        background-color: #999999; 
-        grid-area: color12;
       }
       .select-color { 
         border-radius: 0 0 .25em 0;
-        background-color: #FFFFFF; 
         grid-area: selectColor;
+        background-color: #E8E8E8; 
+        position: relative;
+        img {
+          position: absolute;
+          top: .5em;
+          left: .5em;
+        }
+        &:hover {
+          background-color: #E0E0E0; 
+        }
       }
 
 @media (min-width: 640px) {
@@ -161,23 +373,23 @@ body {
       #colorPalette {
         grid-template-columns: repeat(2, 1fr);
         grid-template-areas: 
-          "color0 color7"
-          "color1 color8"
-          "color2 color9"
-          "color3 color10"
-          "color4 color11"
-          "color5 color12"
-          "color6 selectColor";
+          "color0 color6"
+          "color1 color7"
+          "color2 color8"
+          "color3 color9"
+          "color4 color10"
+          "color5 color11"
+          "eraser selectColor";
         height: 18em;
         width: (18/7*2) + em;
         margin: auto;
       }
      
-      .color-6 {
+      .eraser {
         border-radius: 0 0 0 .25em;
       }
 
-      .color-7 {
+      .color-6 {
         border-radius: 0 .25em 0 0;
       }
 }
