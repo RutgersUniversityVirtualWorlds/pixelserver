@@ -40,9 +40,21 @@
           </section>
           <section id="editTools">
             <section id="sliders">
-              <input class="colorRange" id="redRange" type="range" min="0" max="255"></input>
-              <input class="colorRange" id="greenRange" type="range" min="0" max="255"></input>
-              <input class="colorRange" id="blueRange" type="range" min="0" max="255"></input>
+              <div>
+                <span class="rangeLabel">R</span>
+                <input class="colorRange" id="redRange" type="range" min="0" max="255"></input>
+                <input type="text" class="singleInput" id="rInput"></input>
+              </div>
+              <div> 
+                <span class="rangeLabel">G</span>
+                <input class="colorRange" id="greenRange" type="range" min="0" max="255"></input>
+                <input type="text" class="singleInput" id="gInput"></input>
+              </div>
+              <div>
+                <span class="rangeLabel">B</span>
+                <input class="colorRange" id="blueRange" type="range" min="0" max="255"></input>
+                <input type="text" class="singleInput" id="bInput"></input>
+              </div>
             </section>
             <section id="output">
               <div id="colorResult"></div>
@@ -50,6 +62,10 @@
               <br/>
               <p class="colorLabel">HEX</p><input type="text" class="colorInput" id="hexInput"></input>
             </section>
+          </section>
+          <section id="editButtons">
+            <div id="cancelButton">Cancel</div>
+            <div id="applyButton">Apply</div>
           </section>
         </section>
       </div>

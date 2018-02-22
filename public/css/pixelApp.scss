@@ -21,10 +21,12 @@ body {
 }
 
 #colorModal {
-  margin-top: 10vh;
+  margin-top: 5vh;
   padding: 2em;
   width: 50vw;
-  height: 50vh;
+  min-width: 25em;
+  max-width: 35em;
+  min-height: 25em;
   background-color: #FFFFFF;
 }
 
@@ -37,9 +39,14 @@ body {
     }
 
     #exitModal {
+      cursor: pointer;
       display: inline-block;
       font-weight: 700;
       float: right;
+      font-size: 18px;
+      &:hover {
+        color: #999999;
+      }
     }
   
   #colorSelector {
@@ -57,9 +64,15 @@ body {
         "color6 color7 color8 color9 color10 color11";
       width: 15.5em;
       height: (15.5/6*2) + em;
-      margin: auto;
-      background-color: #F2F2F2;
+      margin: 1em auto 0em;
       padding: .5em 1em;
+      background-color: #F2F2F2;
+      border-radius: .25em;
+      
+      & div {
+        cursor: pointer;
+        box-sizing: border-box;
+      }
       
       .color-5 {
         border-radius: 0 .25em 0 0;
@@ -75,13 +88,26 @@ body {
     #editTools { 
       display: flex;
       flex-direction: row;
-      justify-content: center;
+      justify-content: space-around;
       margin-top: 2em;
       #sliders {
-        .colorRange {
+        margin-right: 1.5em;
+        div {
           display: block;
-          width: 20em;
-          margin: 1em 2em;
+          margin-top: 1em;
+        }
+        .rangeLabel {
+          text-align: center;
+          vertical-align: text-top;
+        }
+        .singleInput {
+          vertical-align: text-top;
+          border: solid 1px #17181A;
+          text-align: center;
+          width: 2em;
+        }
+        .colorRange {
+          display: inline;
 
           -webkit-appearance: none; /*clear default styles for chrome/safari */
           background: transparent; /*otherwise white in chrome */
@@ -119,33 +145,13 @@ body {
             outline: none;
           }
         }
-        #redRange {
-          &::-webkit-slider-runnable-track {
-            background: linear-gradient(90deg, #000000, #FF0000);
-          }
-          &::-moz-range-track {
-            background: linear-gradient(90deg, #000000, #FF0000);
-          }
-        }
-        #greenRange {
-          &::-webkit-slider-runnable-track {
-            background: linear-gradient(90deg, #000000, #00FF00);
-          }
-          &::-moz-range-track {
-            background: linear-gradient(90deg, #000000, #00FF00);
-          }
-        }
-        #blueRange {
-          &::-webkit-slider-runnable-track {
-            background: linear-gradient(90deg, #000000, #0000FF);
-          }
-          &::-moz-range-track {
-            background: linear-gradient(90deg, #000000, #0000FF);
-          }
+        .colorRange {
+          border-radius: 1em;
         }
       }
       #output {
         #colorResult {
+          border: solid 1px #17181A;
           display: block;
           width: 8em;
           height: 8em;
@@ -162,6 +168,39 @@ body {
         }
       }
     }
+
+  #editButtons {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    * {
+      cursor: pointer;
+      margin-top: 1.25em;
+      margin-right: 1em;
+      padding: .75em 1.5em;
+      border-radius: 1.5em;
+      font-size: 13px;
+    }
+  }
+
+  #cancelButton {
+    border: solid 2px #d1d8e0;
+    color: #c1c8d0;
+    font-weight: 700;
+    background: #FFFFFF;
+    &:hover {
+      border: solid 2px #c1c8d0;
+      color: #b1b8c0;
+    }
+  } 
+
+  #applyButton {
+    color: #FFFFFF;
+    background: #20bf6b;
+    &:hover {
+      background: #10af5b;
+    }
+  }
 
 .topLayer {
   position: absolute;
@@ -236,6 +275,10 @@ body {
       width: 18em;
       height: (18/7*2) + em;
       margin: auto;
+      & div {
+        cursor: pointer;
+        box-sizing: border-box;
+      }
     }
       
       .active {

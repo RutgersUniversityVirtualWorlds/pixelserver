@@ -7,12 +7,10 @@ const ColorPalette = function(paletteElement, canvas, titleElement) {
   this.title = titleElement;
   this.id = this.palette.id;
   this.canvas = canvas;
-  this.overlay = document.getElementById("overlay");
 
   this.colors = [];
   this.activeElement = null;
   this.editElement = null;
-  this.editing = false;
   this.activeColor = this.canvas.activeColor;
 
   this.setInitialValues(this.palette);
@@ -23,11 +21,8 @@ const ColorPalette = function(paletteElement, canvas, titleElement) {
     });
   }
 
-  this.selector = new ColorSelector(document.getElementById("colorSelector")); 
-
   this.editElement.addEventListener('mouseup', function(e) { state.editColorsEvent(); });
-  this.overlay.addEventListener('mouseup', function(e) { state.removeOverlay(state.overlay, e); });
-  document.addEventListener('keypress', function(e) { state.removeOverlay(state.overlay, e); });
+  this.selector = new ColorSelector(document.getElementById("colorSelector"), state); 
 };
 
 ColorPalette.prototype.setInitialValues = function(palette) {
@@ -77,15 +72,6 @@ ColorPalette.prototype.editColorsEvent = function() {
   //when edit button clicked, darken screen and display a pop-up modal
   let overlay = document.getElementById("overlay");
   overlay.style.display = "inline";
-  this.editing = true;
 };
 
-ColorPalette.prototype.removeOverlay = function(overlay, e = null) {
-  if(e !== null && e.key === "Escape") {
-    overlay.style.display = "none";
-  }
-  else if(e !== null && e.target.id === 'modalWrapper') {
-    overlay.style.display = "none";
-  }
-};
 export default ColorPalette;
