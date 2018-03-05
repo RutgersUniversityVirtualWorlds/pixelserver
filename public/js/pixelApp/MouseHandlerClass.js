@@ -22,13 +22,14 @@ class MouseHandler extends Pointer {
     if(e.target.id === "editor") {
       this.setMousePos(e, state);
       this.colorPixel(state);
-
-      state.dragging = false;
     }
+    state.dragging = false;
   }
 
   LeaveEvent(e, state) {
     //essentially redraw the canvas without drawing the highlight
+    //also establish that no pixel is currently highlighted
+    state.highlighted = null;
     state.render = true;
     state.draw();
   }

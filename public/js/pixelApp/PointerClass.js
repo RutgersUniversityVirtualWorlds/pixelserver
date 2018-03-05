@@ -28,19 +28,21 @@ class Pointer {
         let selection = state.pixels[i];
 
         if(!state.dragging && this.type === 'mouse') { //would only happen when pointer is a mouse
-          //TODO: Don't highlight if pixel already currently highlighted
-          state.render = true;
-          state.draw();
-          //add highlight on top of the current pixel
-          selection.drawHighlight(state.ctx);
-        }
-        else if(state.dragging) { 
-          if(!selection.fillEquals(state.activeColor)) {
-            selection.setFill(state.activeColor);
+          //pixel highlighted only once while mouse moving within its bounds
+          if(state.highlighted !== selection) {
+            console.log('highlighted');
             state.render = true;
             state.draw();
-            state.socket.sendSinglePixel(selection, i);
+            //add highlight on top of the current pixel
+            selection.drawHighlight(state.ctx);
+            state.highlighted = selection;
           }
+        }
+        else if(state.dragging && !selection.fillEquals(state.activeColor)) { 
+          selection.setFill(state.activeColor);
+          state.render = true;
+          state.draw();
+          state.socket.sendSinglePixel(selection, i);
         }
         break;
       }

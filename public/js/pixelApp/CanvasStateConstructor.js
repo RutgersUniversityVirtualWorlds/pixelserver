@@ -20,6 +20,7 @@ const CanvasState = function(canvas, socket, touches, mouse) {
   this.pixels = [];
   this.render = false;
   this.dragging = false;
+  this.highlighted = null;
 
   /****** Events *****/
   /******* Mouse Events *******/
