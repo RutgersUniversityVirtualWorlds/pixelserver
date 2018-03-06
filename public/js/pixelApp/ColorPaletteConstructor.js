@@ -21,7 +21,7 @@ const ColorPalette = function(paletteElement, canvas, titleElement) {
     });
   }
 
-  this.editElement.addEventListener('mouseup', function(e) { state.editColorsEvent(); });
+  this.editElement.addEventListener('mouseup', function(e) { state.editColorsEvent(state); });
   this.selector = new ColorSelector(document.getElementById("colorSelector"), state); 
 };
 
@@ -68,7 +68,8 @@ ColorPalette.prototype.colorClickedEvent = function(selected, state) {
   state.activeElement.classList.add('active');
 };
 
-ColorPalette.prototype.editColorsEvent = function() {
+ColorPalette.prototype.editColorsEvent = function(state) {
+  this.selector.setInitialValues(state, document.getElementById("colorPaletteEdit"));
   //when edit button clicked, darken screen and display a pop-up modal
   let overlay = document.getElementById("overlay");
   overlay.style.display = "inline";

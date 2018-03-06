@@ -30,7 +30,6 @@ class Pointer {
         if(!state.dragging && this.type === 'mouse') { //would only happen when pointer is a mouse
           //pixel highlighted only once while mouse moving within its bounds
           if(state.highlighted !== selection) {
-            console.log('highlighted');
             state.render = true;
             state.draw();
             //add highlight on top of the current pixel

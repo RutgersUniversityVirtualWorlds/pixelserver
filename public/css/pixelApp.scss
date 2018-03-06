@@ -73,14 +73,16 @@ body {
         cursor: pointer;
         box-sizing: border-box;
       }
-      
-      .color-5 {
+      .e-color-0 {
+        border-radius: .25em 0 0 0;
+      } 
+      .e-color-5 {
         border-radius: 0 .25em 0 0;
       }
-      .color-6 {
+      .e-color-6 {
         border-radius: 0 0 0 .25em;
       }
-      .color-11 {
+      .e-color-11 {
         border-radius: 0 0 .25em 0;
       }
     }
@@ -107,6 +109,7 @@ body {
           width: 2em;
         }
         .colorRange {
+          cursor: pointer;
           display: inline;
 
           -webkit-appearance: none; /*clear default styles for chrome/safari */
