@@ -1,7 +1,13 @@
 module.exports = {
-  verify: function(socket, data, led) {
+  verify: function(socket, data, led, users) {
     console.log('A ' + data.type + ' has connected');
+    if(data.type === 'web-client') {
+      users.count = users.count + 1;
+      socket.emit('userCount', {userCount: users.count});
+      socket.broadcast.emit('userCount', {userCount: users.count});
+    }
     if(data.type === 'web-client' && led.id !== null) {
+      //respond to client
       socket.emit('boardConnect', {dimmensions: led.dimmensions, boardState: led.boardState});
     }
     else if(data.type === 'device') {
@@ -45,9 +51,12 @@ module.exports = {
     }
   },
 
-  disconnect: function(socket, led) {
+  disconnect: function(socket, led, users) {
     if(socket.id !== led.id) {
       console.log('A web-client has disconnected');
+      users.count = users.count - 1;
+      //update all other users on userCount
+      socket.broadcast.emit('userCount', {userCount: users.count});
     }
     else {
       //clear all the web-client boards

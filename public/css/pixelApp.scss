@@ -235,6 +235,19 @@ body {
     border: solid 1px #202025;
   }
 
+  .userCounter {
+    background-color: #F2F2F2;
+    margin-top: 1em;
+    padding: .35em .75em;
+    * {
+      vertical-align: middle;
+      display: inline-block;
+    }
+    #userCount {
+      margin-left: .25em;
+    }
+  }
+
 .mainContent {
   height: 100vh;
   display: flex;

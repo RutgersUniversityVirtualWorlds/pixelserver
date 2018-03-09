@@ -23,6 +23,12 @@ pxl.comm.socket.on('boardConnect', function(data) {
   pxl.grid.setUpGrid(data.dimmensions, pixelSize, data.boardState);
 });
 
+pxl.comm.socket.on('userCount', function(data) {
+  //data.usersCount now holds the value of how many users are currently logged in
+  let counter = document.getElementById('userCount');
+  counter.innerHTML = data.userCount;
+});
+
 pxl.comm.socket.on('boardUpdate', function(data) {
   pxl.grid.updateGrid(data.boardState);
 });
