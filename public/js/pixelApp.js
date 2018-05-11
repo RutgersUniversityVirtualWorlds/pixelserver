@@ -1,13 +1,17 @@
 import SocketState from './pixelApp/SocketStateConstructor.js';
+import WebSocketState from './pixelApp/WebSocketStateConstructor.js';
 import TouchHandler from './pixelApp/TouchHandlerClass.js';
 import MouseHandler from './pixelApp/MouseHandlerClass.js';
 import CanvasState from './pixelApp/CanvasStateConstructor.js';
 import ViewState from './pixelApp/ViewStateConstructor.js';
 import ColorPalette from './pixelApp/ColorPaletteConstructor.js';
 
+let jwt = 'JWTokenHere';
+
 let pxl = {};
 
 pxl.comm = new SocketState();
+pxl.ws = new WebSocketState(jwt);
 pxl.touches = new TouchHandler();
 pxl.mouse = new MouseHandler("mouse", 0, 0);
 pxl.grid = new CanvasState(document.getElementById('editor'), pxl.comm, pxl.touches, pxl.mouse);
