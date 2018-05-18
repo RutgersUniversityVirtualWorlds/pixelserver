@@ -1,0 +1,16 @@
+[Unit]
+Description=pixelserver daemon
+After=network.target
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi/pixelserver
+ExecStart=/home/pi/pixelserver/pixelserver.sh
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+RestartSec=10s
+
+[Install]
+WantedBy=multi-user.target
