@@ -10,14 +10,17 @@ module.exports = function(io) {
     boardState: []
   };
 
+  /*
   let users = {
     count: 0
   }
+  */
 
   io.on('connection', function(socket) {
 
     socket.on('identifier', function(data) {
-      controller.verify(socket, data, led, users);
+      //controller.verify(socket, data, led, users);
+      controller.verify(socket, data, led);
     });
 
     socket.on('post', function(data) {
@@ -25,7 +28,8 @@ module.exports = function(io) {
     });
 
     socket.on('disconnect', function(reason) {
-      controller.disconnect(socket, led, users);
+      //controller.disconnect(socket, led, users);
+      controller.disconnect(socket, led);
     });
 
   });
