@@ -6,9 +6,9 @@ let server = require('http').Server(app);
 
 //must attach socket.io to an http.Server instance,
 //not an express request handler function
-//let io = require('socket.io')(server);
+let io = require('socket.io')(server);
 //io events handler
-//require('./app/events/index.io.events.js')(io);
+require('./app/events/index.io.events.js')(io);
 
 server.listen(3001, function() {
   console.log('Server listening on port 3001.');

@@ -2,11 +2,7 @@ import io from 'socket.io-client';
 
 const SocketState = function() {
   let state = this;
-  this.socket = io.connect(
-    'DESKTOP-1CJCEB2.local:3000'
-    //'https://rugrid.mozilla-iot.org/things/http---192.168.33.132-3000'
-    //'127.0.0.1:3000'
-  );
+  this.socket = io.connect();
 
   this.socket.on('connect', function() {
     state.socket.emit('identifier', {type: 'web-client'});
