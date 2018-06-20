@@ -54,6 +54,9 @@ body {
   justify-content: flex-end;
 }
 
+.active { display: initial; }
+.inactive { display: none; }
+
   #view {
     z-index: 0;
     width: 100vw;
@@ -69,6 +72,11 @@ body {
     #editor {
       position: absolute;
       cursor: url('/img/iconmonstr-pencil-4-16.png') 0 16, auto;
+    }
+    #inactive_canvas {
+      p {
+        color: #9C9C9C;
+      }
     }
   }
 

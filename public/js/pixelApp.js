@@ -37,6 +37,10 @@ fetch(url, { headers: headers })
 */
 
 pxl.comm.socket.on('boardConnect', function(data) {
+  let tempImg = document.getElementById('inactive_canvas');
+  tempImg.classList.remove('active');
+  tempImg.classList.add('inactive');
+
   pxl.grid.pWidth = data.dimmensions.width;
   pxl.grid.pHeight = data.dimmensions.height;
 
@@ -58,5 +62,8 @@ pxl.comm.socket.on('boardUpdate', function(data) {
 
 pxl.comm.socket.on('boardDisconnect', function() {
   pxl.grid.deleteGrid();
-  //should have some sort of display for the user
+
+  let tempImg = document.getElementById('inactive_canvas');
+  tempImg.classList.remove('inactive');
+  tempImg.classList.add('active');
 });
